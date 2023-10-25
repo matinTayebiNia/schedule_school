@@ -24,7 +24,7 @@ class Lessen extends Model
         "name",
         "start_time",
         "end_time",
-        "school_id",
+        "student_id",
         "class_id",
         "teacher_id",
         "created_at",
@@ -44,12 +44,17 @@ class Lessen extends Model
 
     public function class(): BelongsTo
     {
-        return $this->belongsTo(SchoolClass::class,"class_id");
+        return $this->belongsTo(SchoolClass::class, "class_id");
     }
 
-    public function teacher()
+    public function teacher(): BelongsTo
     {
+        return $this->belongsTo(Teacher::class, "teacher_id");
+    }
 
+    public function student(): BelongsTo
+    {
+        return $this->belongsTo(Student::class);
     }
 
     public function getDifferenceAttribute(): int

@@ -12,6 +12,8 @@ class SchoolClass extends Model
 {
     use HasFactory;
 
+    protected $table = "school_classes";
+
     use SoftDeletes;
 
     protected $dates = [
@@ -35,6 +37,16 @@ class SchoolClass extends Model
 
     public function school(): BelongsTo
     {
-        return $this->belongsTo(School::class,"school_id");
+        return $this->belongsTo(School::class, "school_id");
+    }
+
+    public function students(): HasMany
+    {
+        return $this->hasMany(Student::class, "class_id");
+    }
+
+    public function teachers(): HasMany
+    {
+        return $this->hasMany(Teacher::class, "class_id");
     }
 }
