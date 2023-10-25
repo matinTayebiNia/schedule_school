@@ -18,6 +18,18 @@ class Lessen extends Model
         'deleted_at',
     ];
 
+    protected $fillable = [
+        "name",
+        "start_time",
+        "end_time",
+        "school_id",
+        "class_id",
+        "teacher_id",
+        "created_at",
+        "updated_at",
+        "deleted_at"
+    ];
+
     const WEEK_DAYS = [
         '1' => 'Saturday',
         '2' => 'Sunday',
@@ -27,7 +39,6 @@ class Lessen extends Model
         '6' => 'Thursday',
         '7' => 'Friday',
     ];
-
 
 
 }
