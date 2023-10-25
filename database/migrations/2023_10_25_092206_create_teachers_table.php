@@ -19,7 +19,9 @@ return new class extends Migration {
             $table->string("personal_code", "10")->unique();
             $table->text("address");
             $table->string("profile_image")->nullable();
+            $table->rememberToken();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

@@ -20,7 +20,7 @@ return new class extends Migration {
                 ->cascadeOnUpdate()->cascadeOnDelete();
             $table->foreign("student_id")->references("id")->on("students")
                 ->cascadeOnUpdate()->cascadeOnDelete();
-            $table->primary(["class_id","teacher_id","student_id"]);
+            $table->primary(["class_id", "teacher_id", "student_id"]);
         });
     }
 
@@ -30,7 +30,9 @@ return new class extends Migration {
     public function down(): void
     {
         Schema::table('lessens', function (Blueprint $table) {
-            //
+            $table->dropColumn("class_id");
+            $table->dropColumn("teacher_id");
+            $table->dropColumn("student_id");
         });
     }
 };

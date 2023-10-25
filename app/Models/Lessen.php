@@ -24,6 +24,7 @@ class Lessen extends Model
         "name",
         "start_time",
         "end_time",
+        "weekday",
         "student_id",
         "class_id",
         "teacher_id",

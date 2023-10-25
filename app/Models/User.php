@@ -3,7 +3,9 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -19,8 +21,20 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
-        'email',
+        'family',
+        'phone',
+        'personal_code',
+        'address',
+        'profile_image',
         'password',
+        "is_staff",
+        "is_superuser"
+    ];
+
+    protected $guarded = [
+        "id",
+        "is_staff",
+        "is_superuser"
     ];
 
     /**
@@ -33,13 +47,62 @@ class User extends Authenticatable
         'remember_token',
     ];
 
+    public function isSuperuser(): bool
+    {
+        return $this->is_superuser == 1;
+    }
+
+    public function isAdmin(): bool
+    {
+        return $this->isSuperuser() || $this->isStaff();
+    }
+
     /**
      * The attributes that should be cast.
      *
      * @var array<string, string>
      */
     protected $casts = [
-        'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function isStaff(): bool
+    {
+        return $this->is_staff == 1;
+    }
+
+    public function roles(): BelongsToMany
+    {
+        return $this->belongsToMany(Role::class);
+    }
+
+    public function permissions(): BelongsToMany
+    {
+        return $this->belongsToMany(Permission::class);
+    }
+
+    /**
+     * @param Permission $permission
+     * @return bool
+     */
+    public function hesAllowed(Permission $permission): bool
+    {
+        // If the user was an employee. It is checked whether access is allowed or not.
+        return $this->permissions->contains("name", $permission->name) ||
+            $this->hasRole($permission->roles);
+    }
+
+    /**
+     * This method specifies that the user's role is allowed access
+     *
+     * @param Collection $roles
+     * @return bool
+     */
+    private function hasRole(Collection $roles)
+    {
+        return !!$roles->intersect($this->roles)->all();
+
+    }
+
+
 }
