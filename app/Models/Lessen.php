@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Lessen extends Model
@@ -40,5 +42,19 @@ class Lessen extends Model
         '7' => 'Friday',
     ];
 
+    public function class(): BelongsTo
+    {
+        return $this->belongsTo(SchoolClass::class,"class_id");
+    }
+
+    public function teacher()
+    {
+
+    }
+
+    public function getDifferenceAttribute(): int
+    {
+        return Carbon::parse($this->end_time)->diffInMinutes($this->start_time);
+    }
 
 }

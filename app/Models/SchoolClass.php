@@ -35,6 +35,6 @@ class SchoolClass extends Model
 
     public function school(): BelongsTo
     {
-        return $this->belongsTo(School::class);
+        return $this->belongsTo(School::class,"school_id");
     }
 }
