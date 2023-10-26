@@ -31,5 +31,4 @@ class School extends Model
         return $this->hasMany(SchoolClass::class, "school_id", "id");
     }
 
-
 }

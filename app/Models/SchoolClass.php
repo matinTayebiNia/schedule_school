@@ -30,9 +30,9 @@ class SchoolClass extends Model
         "deleted_at"
     ];
 
-    public function lessens(): HasMany
+    public function units(): HasMany
     {
-        return $this->hasMany(Lessen::class, "class_id", "id");
+        return $this->hasMany(Unit::class, "class_id", "id");
     }
 
     public function school(): BelongsTo
@@ -40,13 +40,4 @@ class SchoolClass extends Model
         return $this->belongsTo(School::class, "school_id");
     }
 
-    public function students(): HasMany
-    {
-        return $this->hasMany(Student::class, "class_id");
-    }
-
-    public function teachers(): HasMany
-    {
-        return $this->hasMany(Teacher::class, "class_id");
-    }
 }

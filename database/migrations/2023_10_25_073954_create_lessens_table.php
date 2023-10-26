@@ -13,9 +13,7 @@ return new class extends Migration {
         Schema::create('lessens', function (Blueprint $table) {
             $table->id();
             $table->string("name");
-            $table->enum("weekday", ["1", "2", "3", "4", "5", "6", "7"]);
-            $table->time("start_time");
-            $table->time("end_time");
+            $table->integer("code")->unique();
             $table->timestamps();
             $table->softDeletes();
         });

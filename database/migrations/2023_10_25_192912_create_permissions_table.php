@@ -36,7 +36,7 @@ return new class extends Migration {
             $table->primary(["role_id", "user_id"]);
         });
 
-        Schema::create("permission_roles", function (Blueprint $table) {
+        Schema::create("permission_role", function (Blueprint $table) {
             $table->unsignedBigInteger("role_id");
             $table->unsignedBigInteger("permission_id");
             $table->foreign("role_id")->references("id")->on("roles")
@@ -52,7 +52,7 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists("permission_roles");
+        Schema::dropIfExists("permission_role");
         Schema::dropIfExists("role_user");
         Schema::dropIfExists("permission_user");
         Schema::dropIfExists('permissions');

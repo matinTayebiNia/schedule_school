@@ -10,17 +10,23 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::table('lessens', function (Blueprint $table) {
+        Schema::create("units", function (Blueprint $table) {
+            $table->id();
             $table->unsignedBigInteger("class_id");
+            $table->unsignedBigInteger("lessen_id");
             $table->unsignedBigInteger("teacher_id");
-            $table->unsignedBigInteger("student_id");
             $table->foreign("class_id")->references("id")->on("school_classes")
                 ->cascadeOnUpdate()->cascadeOnDelete();
             $table->foreign("teacher_id")->references("id")->on("teachers")
                 ->cascadeOnUpdate()->cascadeOnDelete();
-            $table->foreign("student_id")->references("id")->on("students")
+            $table->foreign("lessen_id")->references("id")->on("lessens")
                 ->cascadeOnUpdate()->cascadeOnDelete();
-            $table->primary(["class_id", "teacher_id", "student_id"]);
+            $table->enum("weekday", ["1", "2", "3", "4", "5", "6", "7"]);
+            $table->time("start_time");
+            $table->time("end_time");
+            $table->integer("student_limit");
+            $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -29,10 +35,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::table('lessens', function (Blueprint $table) {
-            $table->dropColumn("class_id");
-            $table->dropColumn("teacher_id");
-            $table->dropColumn("student_id");
-        });
+        Schema::dropIfExists("pivot_table_student");
     }
 };

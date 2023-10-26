@@ -98,10 +98,9 @@ class User extends Authenticatable
      * @param Collection $roles
      * @return bool
      */
-    private function hasRole(Collection $roles)
+    private function hasRole(Collection $roles): bool
     {
         return !!$roles->intersect($this->roles)->all();
-
     }
 
 
