@@ -10,7 +10,6 @@ class AdminController extends Controller
 
     public function index(): View
     {
-        // todo :create admin view
-        return view("");
+        return view("admin.index");
     }
 }
