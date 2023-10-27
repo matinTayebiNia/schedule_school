@@ -21,6 +21,7 @@ return new class extends Migration {
                 ->cascadeOnUpdate()->cascadeOnDelete();
             $table->foreign("lessen_id")->references("id")->on("lessens")
                 ->cascadeOnUpdate()->cascadeOnDelete();
+            $table->unique(["teacher_id", "lessen_id","class_id"]);
             $table->enum("weekday", ["1", "2", "3", "4", "5", "6", "7"]);
             $table->time("start_time");
             $table->time("end_time");

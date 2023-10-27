@@ -26,7 +26,7 @@ class School extends Model
         'deleted_at',
     ];
 
-    public function schoolClasses(): HasMany
+    public function classes(): HasMany
     {
         return $this->hasMany(SchoolClass::class, "school_id", "id");
     }
