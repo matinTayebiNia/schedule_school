@@ -91,7 +91,7 @@ class Create extends Component
     {
         $this->authorize("create-teacher");
 
-        $data = $this->validate();
+        $this->validate();
 
         Teacher::create($this->all());
 
