@@ -43,8 +43,8 @@ class Create extends Component
             "name" => ["required", "min:3", "max:200"],
             "family" => ["required", "min:3", "max:200"],
             "password" => ["required", "min:8"],
-            "phone" => ["required", "numeric", "size:11"],
-            "personal_code" => ["required", "numeric", "size:10"],
+            "phone" => ["required","unique:teachers", "numeric", "size:11"],
+            "personal_code" => ["required","unique:teachers", "numeric", "size:10"],
             "address" => ["required"],
             "profile_image" => ["nullable"]
         ];
@@ -67,9 +67,11 @@ class Create extends Component
             "phone.required" => "تلفن همراه وارد نشده",
             "phone.numeric" => 'تلفن همراه باید عدد باشد',
             "phone.size" => 'تلفن همراه باید 11 عدد باشد',
+            "phone.unique" => 'تلفن همراه تکراری میباشد',
             "personal_code.required" => "کد ملی وارد نشده",
             "personal_code.numeric" => 'کد ملی باید عدد باشد',
             "personal_code.size" => 'کد ملی باید 10 عدد باشد',
+            "personal_code.unique" => 'کد ملی تکراری میباشد',
             "address.required" => 'ادرس وارد نشده',
         ];
     }
@@ -91,7 +93,7 @@ class Create extends Component
 
         $data = $this->validate();
 
-        Teacher::create($data);
+        Teacher::create($this->all());
 
         session()->flash("success", "معلم با موفقیت ثبت شد");
 
