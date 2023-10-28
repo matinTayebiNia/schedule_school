@@ -40,3 +40,4 @@
 172.25.0.1 - - [24/Oct/2023:11:48:43 +0000] "GET /profile HTTP/1.1" 200 5988 "http://localhost/dashboard" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36"
 172.25.0.1 - - [27/Oct/2023:08:18:39 +0000] "GET /admin/categories HTTP/1.1" 404 2311 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36"
 172.25.0.1 - - [27/Oct/2023:08:18:43 +0000] "GET / HTTP/1.1" 200 8087 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36"
+172.25.0.1 - - [27/Oct/2023:19:22:24 +0000] "GET / HTTP/1.1" 200 8087 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36"
