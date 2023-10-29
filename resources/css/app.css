@@ -1,3 +1,21 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+.modal {
+    transition: opacity 0.25s ease;
+}
+
+body.modal-active {
+    overflow-x: hidden;
+    overflow-y: visible !important;
+}
+
+.dir-rtl {
+    direction: rtl;
+}
+
+.active {
+    @apply bg-gradient-to-l from-blue-200 from-20% to-80%  text-blue-500 text-xl font-black border-l border-l-[3px] border-blue-400 ;
+}

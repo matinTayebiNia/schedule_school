@@ -8,12 +8,25 @@ use Illuminate\View\Component;
 
 class SideBarAdminItem extends Component
 {
+
+    public string $route = "";
+    public string $icon = "";
+    public string $itemName = "";
+    public string|null $isActive = null;
+
     /**
      * Create a new component instance.
+     * @param string $icon
+     * @param string $route
+     * @param string $itemName
+     * @param string|null $isActive
      */
-    public function __construct()
+    public function __construct(string $icon, string $route, string $itemName,string|null$isActive)
     {
-        //
+        $this->isActive = $isActive;
+        $this->icon = $icon;
+        $this->route = $route;
+        $this->itemName = $itemName;
     }
 
     /**
