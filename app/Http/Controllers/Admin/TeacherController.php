@@ -16,6 +16,7 @@ class TeacherController extends Controller
      */
     public function index(): View
     {
+
         $this->authorize("see-teachers");
         $query = Teacher::query();
         $teachers = $query->latest()->paginate(7);
@@ -27,10 +28,12 @@ class TeacherController extends Controller
             $teachers = $query->latest()->paginate(7);
         }
         return view("admin.teacher.index", compact("teachers"));
+
     }
 
     public function destroy(Request $request)
     {
+
         try {
             $this->authorize("delete-teacher");
             $data = $request->validate([
