@@ -19,18 +19,30 @@ class TeacherController extends Controller
 
         $this->authorize("see-teachers");
         $query = Teacher::query();
-        $teachers = $query->latest()->paginate(7);
         if ($search = request("search")) {
-            $query = $query->where("name", "LIKE", "%{$search}%")
+            $query->where("name", "LIKE", "%{$search}%")
                 ->orWhere("family", "LIKE", "%{$search}%")
                 ->orWhere("phone", "LIKE", "%$search%")
                 ->orWhere("personal_code", "LIKE", "%$search%");
-            $teachers = $query->latest()->paginate(7);
         }
-        return view("admin.teacher.index", compact("teachers"));
+        $teachers = $query->latest()->paginate(7);
+        $title = "معلمان";
+        return view("admin.teacher.index", compact("teachers", "title"));
 
     }
 
+    /**
+     * @throws AuthorizationException
+     */
+    public function show(Teacher $teacher): \Illuminate\Contracts\View\View
+    {
+        $this->authorize("see-teacher");
+        return view("admin.teacher.show", compact("teacher"));
+    }
+
+    /**
+     * @throws AuthorizationException
+     */
     public function destroy(Request $request)
     {
 
