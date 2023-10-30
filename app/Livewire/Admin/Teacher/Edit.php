@@ -6,6 +6,7 @@ use App\Models\Teacher;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
 use JetBrains\PhpStorm\ArrayShape;
 use Livewire\Component;
@@ -48,7 +49,7 @@ class Edit extends Component
 
         $this->address = $teacher->address;
 
-        $this->profile_image = $teacher->profile_image;
+        $this->profile_image = $teacher->profile_image ?? "";
 
     }
 
@@ -57,7 +58,8 @@ class Edit extends Component
      */
     public function render(): View
     {
-        return view('livewire.admin.teacher.edit')
+        $title = "ویرایش معلم ";
+        return view('admin.teacher.edit', compact("title"))
             ->layout("admin.layouts.admin-layout");
     }
 
@@ -95,9 +97,9 @@ class Edit extends Component
             , [
             "name" => ["required", "min:3", "max:200"],
             "family" => ["required", "min:3", "max:200"],
-            "password" => ["required", "min:8"],
-            "phone" => ["required", "unique:teachers,phone," . $teacher->phone, "numeric", "size:11"],
-            "personal_code" => ["required", "unique:teachers,personal_code," . $teacher->personal_code, "numeric", "size:10"],
+            "password" => ["nullable", "min:8"],
+            "phone" => ["required", Rule::unique("teachers")->ignore($teacher->phone, "phone"), "numeric", "digits:11"],
+            "personal_code" => ["required", Rule::unique("teachers")->ignore($teacher->personal_code, "personal_code"), "numeric","digits:10"],
             "address" => ["required"],
             "profile_image" => ["nullable"]
         ],
@@ -108,15 +110,14 @@ class Edit extends Component
                 "family.required" => 'نام خانوادگی وارد نشده',
                 "family.min" => "نام خانوادگی باید بیشتر از 3 کاراتر باشد",
                 "family.max" => 'مقدار نام خانوادگی بیشتر از حد مجاز است',
-                "password.required" => 'رمز عبور وارد نشده',
                 "password.min" => "رمز عبور باید بیشنر از 8 کاراتر باشد",
                 "phone.required" => "تلفن همراه وارد نشده",
                 "phone.numeric" => 'تلفن همراه باید عدد باشد',
-                "phone.size" => 'تلفن همراه باید 11 عدد باشد',
+                "phone.digits" => 'تلفن همراه باید 11 عدد باشد',
                 "phone.unique" => 'تلفن همراه تکراری میباشد',
                 "personal_code.required" => "کد ملی وارد نشده",
                 "personal_code.numeric" => 'کد ملی باید عدد باشد',
-                "personal_code.size" => 'کد ملی باید 10 عدد باشد',
+                "personal_code.digits" => 'کد ملی باید 10 عدد باشد',
                 "personal_code.unique" => 'کد ملی تکراری میباشد',
                 "address.required" => 'ادرس وارد نشده',
             ])->validate();

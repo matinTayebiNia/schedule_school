@@ -3,14 +3,31 @@
 @tailwind utilities;
 
 
-.modal {
-    transition: opacity 0.25s ease;
+
+[x-cloak] {
+    display: none;
 }
 
-body.modal-active {
-    overflow-x: hidden;
-    overflow-y: visible !important;
+.duration-300 {
+    transition-duration: 300ms;
 }
+
+.ease-in {
+    transition-timing-function: cubic-bezier(0.4, 0, 1, 1);
+}
+
+.ease-out {
+    transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
+}
+
+.scale-90 {
+    transform: scale(.9);
+}
+
+.scale-100 {
+    transform: scale(1);
+}
+
 
 .dir-rtl {
     direction: rtl;

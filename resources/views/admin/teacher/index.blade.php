@@ -32,7 +32,7 @@
                     md:w-full max-w-sm md:space-x-3 space-y-3 md:space-y-0 justify-center"
                         method="get">
                         <div class=" relative ">
-                            <input type="text" name="search" id="search" class="rounded-r-lg
+                            <input type="text" name="search" id="search" value="{{request("search")??""}}" class="rounded-r-lg
                          border-transparent flex-1 appearance-none border border-gray-300
                           w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400
                            shadow-sm text-base focus:outline-none focus:ring-2
@@ -45,12 +45,19 @@
                       focus:ring-offset-purple-200" type="submit">
                             فیلتر
                         </button>
+                    </form>
                 </div>
             </div>
             <div class="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
 
                 <div class="inline-bloc bg-white min-w-full shadow rounded-lg overflow-hidden">
-
+                    @can("create-teacher")
+                        <div class="flex">
+                            <a href="{{route("admin.teacher.create")}}"
+                               class="p-3 rounded-lg bg-blue-600 hover:bg-blue-800 text-white  mt-9 mr-4 ">
+                                ثبت معلم جدید</a>
+                        </div>
+                    @endcan
 
                     <table class="min-w-full leading-normal">
                         <thead>
@@ -113,6 +120,20 @@
                                                 </svg>
                                             </a>
                                         @endcan
+                                        @can("delete-teacher")
+                                            <button type="button"
+                                                    x-on:click="[showModal=true, target_id='{{$teacher->id}}']"
+                                            >
+                                                <svg
+                                                    xmlns="http://www.w3.org/2000/svg" height="24px"
+                                                    viewBox="0 0 24 24"
+                                                    width="24px" fill="#FF0000">
+                                                    <path d="M0 0h24v24H0V0z" fill="none"></path>
+                                                    <path
+                                                        d="M16 9v10H8V9h8m-1.5-6h-5l-1 1H5v2h14V4h-3.5l-1-1zM18 7H6v12c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7z"></path>
+                                                </svg>
+                                            </button>
+                                        @endcan
 
                                     </div>
                                 </td>
@@ -120,80 +141,57 @@
                         @endforeach
                         </tbody>
                     </table>
-
-                    {{$categories->links("layouts.paginate")}}
+                    {{$teachers->appends(['search'=>request('search')])->links('layouts.paginate')}}
                 </div>
+            </div>
+        </div>
+    @endcan
 
-                <!--Modal-->
-                @can("delete-category")
+    @can("delete-teacher")
+    <!--Overlay-->
+        <div class="overflow-auto" style="background-color: rgba(0,0,0,0.5)" x-show="showModal"
+             :class="{ 'absolute inset-0 z-10 flex items-center justify-center': showModal }">
+            <!--Dialog-->
+            <div class="bg-white w-11/12 md:max-w-md mx-auto rounded shadow-lg py-4 text-left px-6"
+                 @click.away="showModal = false"
+                 x-transition:enter="ease-out duration-300"
+                 x-transition:enter-start="opacity-0 scale-90"
+                 x-transition:enter-end="opacity-100 scale-100">
 
-                    <div class="modal opacity-0 pointer-events-none
-                     fixed w-full h-full top-0 left-0 flex items-center justify-center">
-                        <div class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
-
-                        <div
-                            class="modal-container bg-white w-11/12 md:max-w-md mx-auto rounded shadow-lg z-50 overflow-y-auto">
-
-                            <div
-                                class="modal-close absolute top-0 right-0 cursor-pointer flex flex-col items-center mt-4 mr-4 text-white text-sm z-50">
-                                <svg class="fill-current text-white" xmlns="http://www.w3.org/2000/svg" width="18"
-                                     height="18" viewBox="0 0 18 18">
-                                    <path
-                                        d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z"></path>
-                                </svg>
-                                <span class="text-sm">(خروج)</span>
-                            </div>
-
-                            <!-- Add margin if you want to see some of the overlay behind the modal-->
-                            <div class="modal-content py-4 text-left px-6">
-                                <!--Title-->
-                                <div class="flex justify-between items-center pb-3">
-                                    <p id="title-modal" class="text-2xl font-bold"></p>
-                                    <div class="modal-close cursor-pointer z-50">
-                                        <svg class="fill-current text-black" xmlns="http://www.w3.org/2000/svg"
-                                             width="18"
-                                             height="18" viewBox="0 0 18 18">
-                                            <path
-                                                d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z"></path>
-                                        </svg>
-                                    </div>
-                                </div>
-                                <form method="post">
-                                    <!--Body-->
-                                    <p id="text-detail" class="text-right"></p>
-                                    <!--Footer-->
-                                    <div class="flex justify-end pt-2">
-
-                                        <button type="button"
-                                                class="modal-close px-4 bg-indigo-500 p-3 rounded-lg text-white hover:bg-indigo-400">
-                                            انصراف
-                                        </button>
-
-                                        <button type="submit"
-                                                class="px-4 bg-transparent p-3 rounded-lg text-indigo-500 hover:bg-gray-100 hover:text-indigo-400 mr-2">
-                                            <span>حذف</span>
-
-                                            <svg aria-hidden="true" wire:loading
-                                                 id="loading-delete"
-                                                 class="inline w-4 h-4 mr-3 text-indigo-500 animate-spin"
-                                                 viewBox="0 0 100 101"
-                                                 fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <path
-                                                    d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
-                                                    fill="#E5E7EB"/>
-                                                <path
-                                                    d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
-                                                    fill="currentColor"/>
-                                            </svg>
-
-                                        </button>
-                                    </div>
-                                </form>
-
-                            </div>
-                        </div>
+                <!--Title-->
+                <div x-show="showModal" class="flex justify-between items-center pb-3">
+                    <p class="text-2xl font-bold">حذف معلم!</p>
+                    <div class="cursor-pointer z-50" @click="showModal = false">
+                        <svg class="fill-current text-black" xmlns="http://www.w3.org/2000/svg"
+                             width="18"
+                             height="18" viewBox="0 0 18 18">
+                            <path
+                                d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z"></path>
+                        </svg>
                     </div>
-                @endcan
+                </div>
+                <form action="{{route("admin.teacher.destroy")}}" method="post" class="my-2">
+                    @method("DELETE")
+                    @csrf
+                    <input type="hidden" name="teacher_id" :value="$data.target_id">
+
+
+                    <!-- content -->
+
+                    <p>ایا از حذف معلم مورد نظر مطمئن هستید</p>
+
+                    <!--Footer-->
+                    <div x-show="showModal" class="flex justify-end pt-2">
+                        <button type="submit"
+                                class="px-4 bg-transparent p-3 rounded-lg text-indigo-500 hover:bg-gray-100 hover:text-indigo-400 mr-2"
+                        >حذف کن
+                        </button>
+                        <button type="button"
+                                class="modal-close px-4 bg-indigo-500 p-3 rounded-lg text-white hover:bg-indigo-400"
+                                @click="showModal = false">انصراف
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
     @endcan

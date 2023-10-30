@@ -9,10 +9,10 @@
     <link rel="stylesheet" href="{{asset("/css/app.css")}}">
     <link href="{{asset("/plugins/css/select2.min.css")}}" rel="stylesheet"/>
     @livewireStyles
-    <script src="{{asset("/plugins/js/alpine.js")}}"></script>
+    <script defer  src="{{asset("/plugins/js/alpine.js")}}"></script>
 
 </head>
-<body dir="rtl" class="bg-gray-100 rounded-2xl h-screen relative font-body">
+<body x-data="{ 'showModal': false,target_id:0 }" @keydown.escape="showModal = false" dir="rtl" class="bg-gray-100 rounded-2xl h-screen relative font-body">
 <div class="flex items-start justify-between">
 
     <x-side-bar-admin-layout>
@@ -115,38 +115,11 @@
         }
     })
 
-    document.getElementsByClassName('modal-overlay')[0]?.addEventListener('click', toggleModal)
-    closemodal = document.querySelectorAll('.modal-close');
-    for (let i = 0; i < closemodal.length; i++) {
-        closemodal[i].addEventListener('click', toggleModal)
-    }
-
-
-    document.onkeydown = function (evt) {
-        evt = evt || window.event
-        let isEscape = false;
-        if ("key" in evt) {
-            isEscape = (evt.key === "Escape" || evt.key === "Esc")
-        } else {
-            isEscape = (evt.keyCode === 27)
-        }
-        if (isEscape && document.body.classList.contains('modal-active')) {
-            toggleModal()
-        }
-    };
     window.selectedTwo = () => {
         $('.js-example-basic-single').select2();
     }
-
-    function toggleModal() {
-        let body = document.querySelector('body')
-        let modal = document.querySelector('.modal')
-        modal.classList.toggle('opacity-0')
-        modal.classList.toggle('pointer-events-none')
-        body.classList.toggle('modal-active')
-    }
 </script>
 @yield("script")
-@livewireScript
+@livewireScripts
 </body>
 </html>

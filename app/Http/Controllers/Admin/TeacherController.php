@@ -53,7 +53,6 @@ class TeacherController extends Controller
             ]);
             $teacher = Teacher::find($data["teacher_id"]);
             $teacher?->delete();
-            // todo : create admin teacher routes
             return redirect(route("admin.teacher.index"))->with("success", "معلم مورد نظر با موفقیت حدف شد");
         } catch (Exception $exception) {
             abort(500);
