@@ -6,6 +6,7 @@ use App\Models\Teacher;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\View\View;
 use JetBrains\PhpStorm\ArrayShape;
+use Livewire\Attributes\On;
 use Livewire\Component;
 
 class Create extends Component
@@ -24,6 +25,12 @@ class Create extends Component
     public string $address = "";
 
     public string $profile_image = "";
+
+    #[On("set_profile_image")]
+    public function setProfileImage($image)
+    {
+        $this->profile_image=$image;
+    }
 
     /**
      * @return View

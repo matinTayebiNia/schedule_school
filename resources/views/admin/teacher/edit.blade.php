@@ -57,10 +57,28 @@
                                     <x-error-input-dashboard name="address"/>
                                 </div>
                                 <div class="relative">
-                                    <x-label-input-dashboard for="profile_image" label="پروفایل:"/>
-                                    <x-input-dashboard livewireModel="profile_image" name="profile_image"
-                                                       placeholder="پروفابل"/>
+                                   <span class="input-group-btn">
+                                     <a id="lfm" data-input="thumbnail" data-preview="holder" class="flex-shrink-0 px-4 py-2 text-base
+                     font-semibold text-white bg-purple-600 rounded-r-lg
+                      shadow-md hover:bg-purple-700 focus:outline-none
+                      focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 disabled:bg-purple-400
+                      focus:ring-offset-purple-200 ">
+                                       <i class="fa fa-picture-o"></i> انتخاب عکس
+                                     </a>
+                                   </span>
+
+                                    <input id="profile_image" wire:model="profile_image" value="{{old("profile_image")}}"
+                                           class="  rounded-l-lg
+                                border-transparent
+                                                   w-full md:w-1/2 py-2 px-4 bg-white
+                                                    text-gray-700 placeholder-gray-400
+                                                    shadow-sm text-base focus:outline-none
+                                                    focus:ring-2 focus:ring-purple-600
+                                                    focus:border-transparent" type="text"
+                                           name="profile_image">
+
                                     <x-error-input-dashboard name="profile_image"/>
+
                                 </div>
                                 <div class="my-3 flex gap-3">
                                     <x-button-primary-dashboard textButton=" ویرایش " targetLoading="update('{{$teacher_id}}')"
@@ -85,3 +103,22 @@
         </div>
     @endcan
 </div>
+
+@section("script")
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+
+            document.getElementById('lfm').addEventListener('click', (event) => {
+                event.preventDefault();
+
+                window.open('/file-manager/fm-button', 'fm', 'width=1400,height=800');
+            });
+        });
+
+        // set file link
+        function fmSetLink(url) {
+            document.getElementById("profile_image").value = url
+            @this.dispatch("set_profile_image", {"image": url});
+        }
+    </script>
+@endsection

@@ -10,6 +10,9 @@
     <link href="{{asset("/plugins/css/select2.min.css")}}" rel="stylesheet"/>
     @livewireStyles
     <script defer  src="{{asset("/plugins/js/alpine.js")}}"></script>
+    <link rel="stylesheet" href="{{ asset('vendor/file-manager/css/file-manager.css') }}">
+    <!-- CSRF Token -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
 </head>
 <body x-data="{ 'showModal': false,target_id:0 }" @keydown.escape="showModal = false" dir="rtl" class="bg-gray-100 rounded-2xl h-screen relative font-body">
@@ -104,6 +107,7 @@
 </div>
 <script src="{{asset("/plugins/js/jquery-3.6.0.min.js")}}"></script>
 <script src="{{asset("/plugins/js/select2.min.js")}}"></script>
+<script src="{{ asset('vendor/file-manager/js/file-manager.js') }}"></script>
 <script>
     document.getElementById("dropdownInformationButton").addEventListener("click", function (e) {
         let alert = document.getElementById("dropdownInformation");

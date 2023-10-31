@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
 use JetBrains\PhpStorm\ArrayShape;
+use Livewire\Attributes\On;
 use Livewire\Component;
 
 class Edit extends Component
@@ -29,6 +30,13 @@ class Edit extends Component
     public string $address = "";
 
     public string $profile_image = "";
+
+
+    #[On("set_profile_image")]
+    public function setProfileImage($image)
+    {
+        $this->profile_image=$image;
+    }
 
     /**
      * @throws AuthorizationException
@@ -99,7 +107,7 @@ class Edit extends Component
             "family" => ["required", "min:3", "max:200"],
             "password" => ["nullable", "min:8"],
             "phone" => ["required", Rule::unique("teachers")->ignore($teacher->phone, "phone"), "numeric", "digits:11"],
-            "personal_code" => ["required", Rule::unique("teachers")->ignore($teacher->personal_code, "personal_code"), "numeric","digits:10"],
+            "personal_code" => ["required", Rule::unique("teachers")->ignore($teacher->personal_code, "personal_code"), "numeric", "digits:10"],
             "address" => ["required"],
             "profile_image" => ["nullable"]
         ],
