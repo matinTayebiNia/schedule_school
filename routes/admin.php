@@ -1,8 +1,11 @@
 <?php
 
 
+use App\Http\Controllers\Admin\LessenController;
 use App\Http\Controllers\Admin\StudentController;
 use App\Http\Controllers\Admin\TeacherController;
+use App\Livewire\Admin\Lessen\CreateLessen;
+use App\Livewire\Admin\Lessen\EditLessen;
 use App\Livewire\Admin\Student\CreateStudent;
 use App\Livewire\Admin\Student\EditStudent;
 use App\Livewire\Admin\Teacher\Create as CreateTeacher;
@@ -24,4 +27,11 @@ Route::prefix("/student")->name("student.")->group(function () {
     Route::get("/show/{student}", [StudentController::class, "show"])->name("show");
     Route::get("/edit/{student}", EditStudent::class)->name("edit");
     Route::get("/create", CreateStudent::class)->name("create");
+});
+
+Route::prefix("/lessen")->name("lessen.")->group(function () {
+    Route::get("/", [LessenController::class, "index"])->name("index");
+    Route::delete("/delete", [LessenController::class, "destroy"])->name("destroy");
+    Route::get("/edit/{lessen}", EditLessen::class)->name("edit");
+    Route::get("/create", CreateLessen::class)->name("create");
 });

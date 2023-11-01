@@ -53,7 +53,7 @@ class StudentController extends Controller
             $data = $request->validate([
                 "student_id" => "required|numeric"
             ]);
-                $student = Student::find($data["student_id"]);
+            $student = Student::find($data["student_id"]);
             $student?->delete();
             return redirect(route("admin.student.index"))->with("success", "دانش آموز مورد نظر با موفقیت حذف شد");
 
