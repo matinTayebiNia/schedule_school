@@ -9,6 +9,17 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
+/**
+ *
+ * @property int $id;
+ * @property string $name;
+ * @property string $family;
+ * @property string $password;
+ * @property string $personal_code;
+ * @property string $address;
+ * @property string $profile_image;
+ *
+ **/
 class Student extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;

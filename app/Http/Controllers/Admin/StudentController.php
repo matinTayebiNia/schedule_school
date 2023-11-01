@@ -3,17 +3,62 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Student;
+use Exception;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+
 
 class StudentController extends Controller
 {
-    public function index()
+    /**
+     * @throws AuthorizationException
+     */
+    public function index(): View
     {
+        $this->authorize("see-students");
+        $query = Student::query();
+        if ($search = request("search")) {
+            $query->where("name", "LIKE", "%{$search}%")
+                ->orWhere("family", "LIKE", "%{$search}%")
+                ->orWhere("personal_code", "LIKE", "%$search%");
+        }
+        $students = $query->latest()->paginate(7);
+        $title = "دانش آموزان";
+        return view("admin.student.index", compact("students", "title"));
+    }
+
+    /**
+     * @throws AuthorizationException
+     */
+    public function show(Student $student): View
+    {
+        $this->authorize("see-student");
+        $title = $student->name . " " . $student->family;
+        return view("admin.student.show", compact('title', "student"));
 
     }
 
-    public function destroy()
+    /**
+     * @param Request $request
+     * @return RedirectResponse
+     */
+    public function destroy(Request $request): RedirectResponse
     {
+        try {
 
+            $this->authorize("delete-student");
+            $data = $request->validate([
+                "student_id" => "required|numeric"
+            ]);
+                $student = Student::find($data["student_id"]);
+            $student?->delete();
+            return redirect(route("admin.student.index"))->with("success", "دانش آموز مورد نظر با موفقیت حذف شد");
+
+        }catch (Exception $exception){
+            abort(500,$exception->getMessage());
+        }
     }
 }

@@ -37,7 +37,8 @@ class TeacherController extends Controller
     public function show(Teacher $teacher): \Illuminate\Contracts\View\View
     {
         $this->authorize("see-teacher");
-        return view("admin.teacher.show", compact("teacher"));
+        $title = $teacher->name . " " . $teacher->family;
+        return view("admin.teacher.show", compact("teacher", "title"));
     }
 
     /**
@@ -53,7 +54,7 @@ class TeacherController extends Controller
             ]);
             $teacher = Teacher::find($data["teacher_id"]);
             $teacher?->delete();
-            return redirect(route("admin.teacher.index"))->with("success", "معلم مورد نظر با موفقیت حدف شد");
+            return redirect(route("admin.teacher.index"))->with("success", "معلم مورد نظر با موفقیت حذف شد");
         } catch (Exception $exception) {
             abort(500);
         }
