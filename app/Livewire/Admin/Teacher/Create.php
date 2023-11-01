@@ -37,7 +37,7 @@ class Create extends Component
      */
     public function render(): View
     {
-        //todo : implement file manger
+
         $title="ثبت معلم";
         return view('admin.teacher.create',compact("title"))
             ->layout("admin.layouts.admin-layout");

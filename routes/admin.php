@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Route;
 Route::prefix("/teacher")->name("teacher.")->group(function () {
     Route::get("/", [TeacherController::class, "index"])->name("index");
     Route::delete("/delete", [TeacherController::class, "destroy"])->name("destroy");
+    Route::get("/show/{teacher}", [TeacherController::class, "show"])->name("show");
     Route::get("/edit/{teacher}", EditTeacher::class)->name("edit");
     Route::get("/create", CreateTeacher::class)->name("create");
 });
