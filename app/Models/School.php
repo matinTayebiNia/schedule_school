@@ -7,6 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+/**
+ *
+ * @property int $id
+ * @property string $code
+ * @property string $name
+ * @property string $address
+ *
+ */
 class School extends Model
 {
     use HasFactory, SoftDeletes;
