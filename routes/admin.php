@@ -2,10 +2,13 @@
 
 
 use App\Http\Controllers\Admin\LessenController;
+use App\Http\Controllers\Admin\SchoolController;
 use App\Http\Controllers\Admin\StudentController;
 use App\Http\Controllers\Admin\TeacherController;
 use App\Livewire\Admin\Lessen\CreateLessen;
 use App\Livewire\Admin\Lessen\EditLessen;
+use App\Livewire\Admin\School\CreateSchool;
+use App\Livewire\Admin\School\EditSchool;
 use App\Livewire\Admin\Student\CreateStudent;
 use App\Livewire\Admin\Student\EditStudent;
 use App\Livewire\Admin\Teacher\Create as CreateTeacher;
@@ -34,4 +37,12 @@ Route::prefix("/lessen")->name("lessen.")->group(function () {
     Route::delete("/delete", [LessenController::class, "destroy"])->name("destroy");
     Route::get("/edit/{lessen}", EditLessen::class)->name("edit");
     Route::get("/create", CreateLessen::class)->name("create");
+});
+
+Route::prefix("/school")->name("school.")->group(function () {
+    Route::get("/", [SchoolController::class, "index"])->name("index");
+    Route::delete("/delete", [SchoolController::class, "destroy"])->name("destroy");
+    Route::get("/show/{school}", [SchoolController::class, "show"])->name("show");
+    Route::get("/edit/{school}", EditSchool::class)->name("edit");
+    Route::get("/create", CreateSchool::class)->name("create");
 });

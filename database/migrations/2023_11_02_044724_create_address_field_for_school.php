@@ -12,6 +12,7 @@ return new class extends Migration {
     {
         Schema::table('schools', function (Blueprint $table) {
             $table->text("address")->after("name");
+            $table->string("code")->unique()->after("address");
         });
     }
 
@@ -22,6 +23,7 @@ return new class extends Migration {
     {
         Schema::table('schools', function (Blueprint $table) {
             $table->dropColumn("address");
+            $table->dropColumn("code");
         });
     }
 };

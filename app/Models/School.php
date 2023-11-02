@@ -9,9 +9,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class School extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
-    use SoftDeletes;
 
     protected $dates = [
         'created_at',
@@ -21,6 +20,7 @@ class School extends Model
 
     protected $fillable = [
         "name",
+        "code",
         "address",
         'created_at',
         'updated_at',

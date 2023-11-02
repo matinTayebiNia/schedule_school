@@ -14,6 +14,7 @@ class AdminController extends Controller
 
     public function index(): View
     {
+        // todo : change svg icon
         return view("admin.index");
     }
 

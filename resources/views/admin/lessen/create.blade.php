@@ -11,12 +11,12 @@
                 <div class="w-full rounded-lg block">
                     <form wire:submit.prevent="save" class=" w-full ">
                         <div class="relative">
-                            <x-label-input-dashboard for="name" label="نام:"/>
+                            <x-label-input-dashboard for="name" label="نام:" />
                             <x-input-dashboard livewireModel="name" name="name" placeholder="نام را وارد کنید"/>
                             <x-error-input-dashboard name="name"/>
                         </div>
                         <div class="relative">
-                            <x-label-input-dashboard for="code" label="کد درس:"/>
+                            <x-label-input-dashboard for="code" label="کد درس:" />
                             <x-input-dashboard livewireModel="code" name="code"
                                                placeholder="کد درس را وارد کنید"/>
                             <x-error-input-dashboard name="code"/>

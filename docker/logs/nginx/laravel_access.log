@@ -935,3 +935,7 @@
 172.25.0.1 - - [01/Nov/2023:19:43:26 +0000] "GET /admin/lessen HTTP/1.1" 200 8925 "http://localhost/admin/lessen/edit/2" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36"
 172.25.0.1 - - [01/Nov/2023:19:43:38 +0000] "POST /admin/lessen/delete HTTP/1.1" 302 374 "http://localhost/admin/lessen" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36"
 172.25.0.1 - - [01/Nov/2023:19:43:40 +0000] "GET /admin/lessen HTTP/1.1" 200 8794 "http://localhost/admin/lessen" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36"
+172.25.0.1 - - [02/Nov/2023:04:46:01 +0000] "GET /admin/teacher HTTP/1.1" 302 346 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36"
+172.25.0.1 - - [02/Nov/2023:04:46:03 +0000] "GET /login HTTP/1.1" 200 2803 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36"
+172.25.0.1 - - [02/Nov/2023:04:46:03 +0000] "GET /build/assets/app-037c606c.js HTTP/1.1" 304 0 "http://localhost/login" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36"
+172.25.0.1 - - [02/Nov/2023:04:46:03 +0000] "GET /build/assets/app-f88a056c.css HTTP/1.1" 304 0 "http://localhost/login" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36"
