@@ -7,5 +7,5 @@
                                                     focus:ring-2 focus:ring-purple-600
                                                     focus:border-transparent {{$class??""}}
            "
-       value="{{old($name)}}" name="{{$name}}" {{$livewireModel?"wire:model=$livewireModel":""}}
+       value="{{old($name,($value??""))}}" name="{{$name}}" {{$livewireModel?"wire:model=$livewireModel":""}}
        placeholder="{{$placeholder}}">

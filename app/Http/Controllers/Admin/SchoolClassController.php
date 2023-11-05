@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\class\CreateRequest;
+use App\Http\Requests\Admin\class\DeleteRequest;
 use App\Http\Requests\Admin\class\editRequest;
 use App\Models\School;
 use App\Models\SchoolClass;
@@ -20,15 +22,9 @@ class SchoolClassController extends Controller
     {
         $this->authorize("see-classes");
 
-        $classes = $school->classes();
-
-        if ($search = request("search")) {
-            $classes->where('name', "LIKE", "%{$search}%");
-        }
-
         $title = "کلاس های مدرسه " . $school->name;
 
-        $classes = $classes->latest()->paginate(7);
+        $classes = $school->classes()->latest()->paginate(7);
 
         return view("admin.class.index", compact("classes", "title"));
 
@@ -37,63 +33,63 @@ class SchoolClassController extends Controller
 
     /**
      * @param School $school
-     * @throws AuthorizationException
+     * @param CreateRequest $request
+     * @return RedirectResponse
      */
-    public function save(School $school)
+    public function save(School $school, CreateRequest $request): RedirectResponse
     {
-        $this->authorize("create-class");
-        //todo : implement validation and store classes for school
 
-        //        $school->classes()->createMany();
+        $school->classes()->createMany($request->input("classes"));
+
+        return redirect(route("admin.class.index", $school->id))
+            ->with("success", "کلاس های مورد نظر با موفقیت ثبت شد.");
+
     }
 
     /**
      * @param SchoolClass $class
-     * @param int $school_id
+     * @param int $school
      * @return View
      * @throws AuthorizationException
      */
-    public function edit(SchoolClass $class, int $school_id): View
+    public function edit(int $school, SchoolClass $class): View
     {
         $this->authorize("edit-class");
         $title = "ویرایش کلاس";
-        return view("admin.class.edit", compact("title", "class", 'school_id'));
+        return view("admin.class.edit", compact("title", "class", 'school'));
     }
 
     /**
      * @param editRequest $request
+     * @param int $school
      * @param SchoolClass $class
-     * @param int $school_id
      * @return RedirectResponse
      */
-    public function update(editRequest $request, SchoolClass $class, int $school_id):RedirectResponse
+    public function update(editRequest $request, int $school, SchoolClass $class): RedirectResponse
     {
 
         $class->update($request->all());
 
-        return redirect(route("admin.class.index", ["school" => $school_id]))->with("success", "کلاس مورد نظر با موفقیت ویرایش شد ");
+        return redirect(route("admin.class.index", ["school" => $school]))
+            ->with("success", "کلاس مورد نظر با موفقیت ویرایش شد ");
 
     }
 
     /**
-     * @param Request $request
+     * @param DeleteRequest $request
      * @return RedirectResponse
      * @throws AuthorizationException
      */
-    public function destroy(Request $request): RedirectResponse
+    public function destroy(DeleteRequest $request): RedirectResponse
     {
-        $this->authorize("delete-class");
 
-        $data = $request->validate([
-            "class_id" => ["required", "numeric"],
-            "school_id" => ["required", "numeric"]
-        ]);
-
-        $class = SchoolClass::find($data["class_id"]);
+        $class = SchoolClass::find($request->input("class_id"));
 
         $class?->delete();
 
-        return redirect(route("admin.class.index", ["school" => $data["school_id"]]))->with('success', "کلاس مورد با موفقیت حذف شد");
+
+        return redirect(route("admin.class.index", ["school" => $request->route()->school]))
+            ->with('success', "کلاس مورد با موفقیت حذف شد");
 
 
     }
