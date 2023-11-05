@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\student\DestroyStudentRequest;
 use App\Models\Student;
 use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
@@ -42,23 +43,17 @@ class StudentController extends Controller
     }
 
     /**
-     * @param Request $request
+     * @param DestroyStudentRequest $request
      * @return RedirectResponse
      */
-    public function destroy(Request $request): RedirectResponse
+    public function destroy(DestroyStudentRequest $request): RedirectResponse
     {
-        try {
 
-            $this->authorize("delete-student");
-            $data = $request->validate([
-                "student_id" => "required|numeric"
-            ]);
-            $student = Student::find($data["student_id"]);
-            $student?->delete();
-            return redirect(route("admin.student.index"))->with("success", "دانش آموز مورد نظر با موفقیت حذف شد");
+        $student = Student::find($request->input("student_id"));
 
-        }catch (Exception $exception){
-            abort(500,$exception->getMessage());
-        }
+        $student?->delete();
+
+        return redirect(route("admin.student.index"))->with("success", "دانش آموز مورد نظر با موفقیت حذف شد");
+
     }
 }

@@ -87,7 +87,6 @@ class SchoolClassController extends Controller
 
         $class?->delete();
 
-
         return redirect(route("admin.class.index", ["school" => $request->route()->school]))
             ->with('success', "کلاس مورد با موفقیت حذف شد");
 

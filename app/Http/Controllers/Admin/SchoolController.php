@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\school\DestroySchoolRequest;
 use App\Models\School;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\View\View;
@@ -43,20 +44,14 @@ class SchoolController extends Controller
     }
 
     /**
-     * @param Request $request
+     * @param DestroySchoolRequest $request
      * @return RedirectResponse
      * @throws AuthorizationException
      */
-    public function destroy(Request $request): RedirectResponse
+    public function destroy(DestroySchoolRequest $request): RedirectResponse
     {
 
-        $this->authorize("delete-school");
-
-        $data = $request->validate([
-            "school_id" => ["required", "numeric"]
-        ]);
-
-        $school = School::find($data["school_id"]);
+        $school = School::find($request->input("school_id"));
 
         $school?->delete();
 

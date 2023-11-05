@@ -11,13 +11,15 @@ class ProfileUpdateRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, \Illuminate\Contracts\Validation\Rule|array|string>
+     * @return array
      */
     public function rules(): array
     {
         return [
             'name' => ['string', 'max:255'],
-            'email' => ['email', 'max:255', Rule::unique(User::class)->ignore($this->user()->id)],
+            'family' => ["required", "string"],
+            "phone" => ["required", Rule::unique("users")->ignore($this->user()->phone,"phone"), "digits:11", "numeric"],
+            "profile_image" => ["nullable"],
         ];
     }
 }
