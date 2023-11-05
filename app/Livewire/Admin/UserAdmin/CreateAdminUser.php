@@ -1,16 +1,14 @@
 <?php
 
-namespace App\Livewire\Admin\Teacher;
+namespace App\Livewire\Admin\UserAdmin;
 
-use App\Models\Teacher;
+use App\Models\User;
 use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Contracts\View\View;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
-class Create extends Component
+class CreateAdminUser extends Component
 {
-
     public string $name = "";
 
     public string $family = "";
@@ -28,19 +26,19 @@ class Create extends Component
     #[On("set_profile_image")]
     public function setProfileImage($image)
     {
-        $this->profile_image=$image;
+        $this->profile_image = $image;
     }
 
-    /**
-     * @return View
-     */
-    public function render(): View
+    public function render()
     {
 
-        $title="ثبت معلم";
-        return view('admin.teacher.create',compact("title"))
+        $title = "ثبت کاربر ادمین جدید";
+
+        return view('admin.user_admin.create', compact("title"))
             ->layout("admin.layouts.admin-layout");
+
     }
+
 
     public function rules(): array
     {
@@ -48,11 +46,19 @@ class Create extends Component
             "name" => ["required", "min:3", "max:200"],
             "family" => ["required", "min:3", "max:200"],
             "password" => ["required", "min:8"],
-            "phone" => ["required","unique:teachers", "numeric", "digits:11"],
-            "personal_code" => ["required","unique:teachers", "numeric", "digits:10"],
+            "phone" => ["required", "unique:users", "numeric", "digits:11"],
+            "personal_code" => ["required", "unique:users", "numeric", "digits:10"],
             "address" => ["required"],
             "profile_image" => ["nullable"]
         ];
+    }
+
+    /**
+     * @throws AuthorizationException
+     */
+    public function mount()
+    {
+        $this->authorize("create-user");
     }
 
     /**
@@ -84,26 +90,18 @@ class Create extends Component
     /**
      * @throws AuthorizationException
      */
-    public function mount()
-    {
-        $this->authorize("create-teacher");
-    }
-
-    /**
-     * @throws AuthorizationException
-     */
     public function save()
     {
-        $this->authorize("create-teacher");
 
-        $this->validate();
+        $this->authorize("create-user");
 
-        Teacher::create($this->all());
+        $data = $this->validate();
 
-        session()->flash("success", "معلم با موفقیت ثبت شد");
+        User::create([...$data, "is_staff" => true]);
 
-        $this->redirect(route("admin.teacher.index"));
+        session()->flash("success", "کاربر ادمین با موفقیت ثبت شد");
+
+        $this->redirect(route("admin.users.index"));
 
     }
-
 }

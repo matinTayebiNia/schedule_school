@@ -2,6 +2,7 @@
 
 
 use App\Http\Controllers\Admin\LessenController;
+use App\Http\Controllers\Admin\Permission\UserController;
 use App\Http\Controllers\Admin\SchoolClassController;
 use App\Http\Controllers\Admin\SchoolController;
 use App\Http\Controllers\Admin\StudentController;
@@ -14,6 +15,8 @@ use App\Livewire\Admin\Student\CreateStudent;
 use App\Livewire\Admin\Student\EditStudent;
 use App\Livewire\Admin\Teacher\Create as CreateTeacher;
 use App\Livewire\Admin\Teacher\Edit as EditTeacher;
+use App\Livewire\Admin\UserAdmin\CreateAdminUser;
+use App\Livewire\Admin\UserAdmin\EditAdminUser;
 use Illuminate\Support\Facades\Route;
 
 
@@ -54,5 +57,12 @@ Route::prefix("/school/{school}/class")->name("class.")->group(function () {
     Route::get("/edit/{class}", [SchoolClassController::class,"edit"])->name("edit");
     Route::put("/update/{class}", [SchoolClassController::class,"update"])->name("update");
     Route::post("/create", [SchoolClassController::class,"save"])->name("create");
+});
+
+Route::prefix("/users")->name("users.")->group(function (){
+    Route::get("/", [UserController::class, "index"])->name("index");
+    Route::delete("/delete", [UserController::class, "destroy"])->name("destroy");
+    Route::post("/create", CreateAdminUser::class)->name("create");
+    Route::get("/edit/{user}", EditAdminUser::class)->name("edit");
 });
 

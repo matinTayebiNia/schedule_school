@@ -10,6 +10,20 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
+/**
+ *
+ * @property int $id;
+ * @property string $name;
+ * @property string $family;
+ * @property string $phone;
+ * @property string $personal_code;
+ * @property string $profile_image;
+ * @property string $address;
+ * @property string $password;
+ * @property boolean $is_staff;
+ * @property boolean $is_superuser;
+ *
+ **/
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
