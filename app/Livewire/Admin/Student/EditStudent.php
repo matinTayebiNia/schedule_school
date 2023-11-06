@@ -73,6 +73,8 @@ class EditStudent extends Component
 
         $data = $this->validating($student);
 
+        $data = unsetPasswordIfIsNull($data);
+
         $student->update($data);
 
         session()->flash("success", "دانش آموز مورد نظر با موفقیت ویرایش شد.");

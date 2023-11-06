@@ -1027,6 +1027,10 @@ select {
   height: 2.25rem;
 }
 
+.h-\[75\%\] {
+  height: 75%;
+}
+
 .h-auto {
   height: auto;
 }
@@ -1105,6 +1109,10 @@ select {
 
 .w-80 {
   width: 20rem;
+}
+
+.w-\[75\%\] {
+  width: 75%;
 }
 
 .w-auto {
@@ -1462,6 +1470,11 @@ select {
 
 .bg-\[hsla\(0\2c 0\%\2c 98\%\2c 0\.15\)\] {
   background-color: hsla(0,0%,98%,0.15);
+}
+
+.bg-blue-500 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(59 130 246 / var(--tw-bg-opacity));
 }
 
 .bg-blue-600 {
@@ -2248,6 +2261,11 @@ select {
 .hover\:border-gray-300:hover {
   --tw-border-opacity: 1;
   border-color: rgb(209 213 219 / var(--tw-border-opacity));
+}
+
+.hover\:bg-blue-600:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(37 99 235 / var(--tw-bg-opacity));
 }
 
 .hover\:bg-blue-800:hover {

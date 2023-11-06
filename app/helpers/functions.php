@@ -2,6 +2,14 @@
 
 use Illuminate\Support\Facades\Route;
 
+if (!function_exists("unsetPasswordIfIsNull")) {
+    function unsetPasswordIfIsNull(array $data): array
+    {
+        if ($data["password"] == "") unset($data["password"]);
+        return $data;
+    }
+}
+
 if (!function_exists("isActive")) {
     /**
      * @param string|array $routeName

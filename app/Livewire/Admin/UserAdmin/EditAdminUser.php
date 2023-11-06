@@ -2,7 +2,6 @@
 
 namespace App\Livewire\Admin\UserAdmin;
 
-use App\Models\Teacher;
 use App\Models\User;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\View\View;
@@ -88,6 +87,9 @@ class EditAdminUser extends Component
 
         $data = $this->validating($user);
 
+        //unset password if is null
+        $data = unsetPasswordIfIsNull($data);
+
         $user->update($data);
 
         session()->flash("success", "کاربر ادمین با موفقیت ویرایش شد.");
@@ -138,5 +140,6 @@ class EditAdminUser extends Component
                 "address.required" => 'ادرس وارد نشده',
             ])->validate();
     }
+
 
 }

@@ -54,15 +54,18 @@ Route::prefix("/school")->name("school.")->group(function () {
 Route::prefix("/school/{school}/class")->name("class.")->group(function () {
     Route::get("/", [SchoolClassController::class, "index"])->name("index");
     Route::delete("/delete", [SchoolClassController::class, "destroy"])->name("destroy");
-    Route::get("/edit/{class}", [SchoolClassController::class,"edit"])->name("edit");
-    Route::put("/update/{class}", [SchoolClassController::class,"update"])->name("update");
-    Route::post("/create", [SchoolClassController::class,"save"])->name("create");
+    Route::get("/edit/{class}", [SchoolClassController::class, "edit"])->name("edit");
+    Route::put("/update/{class}", [SchoolClassController::class, "update"])->name("update");
+    Route::post("/create", [SchoolClassController::class, "save"])->name("create");
 });
 
-Route::prefix("/users")->name("users.")->group(function (){
+Route::prefix("/users")->name("users.")->group(function () {
     Route::get("/", [UserController::class, "index"])->name("index");
     Route::delete("/delete", [UserController::class, "destroy"])->name("destroy");
-    Route::post("/create", CreateAdminUser::class)->name("create");
+    Route::get("/create", CreateAdminUser::class)->name("create");
     Route::get("/edit/{user}", EditAdminUser::class)->name("edit");
+    Route::get("/{user}", [UserController::class, "show"])->name("show");
+    Route::get("/permission/{user}", [UserController::class, "permissions"])->name("permission");
+    Route::post("/permission/{user}", [UserController::class, "setPermissions"])->name("permission");
 });
 

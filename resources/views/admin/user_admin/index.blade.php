@@ -108,7 +108,7 @@
                                     </p>
                                 </td>
                                 <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                    <div class="flex gap-2">
+                                    <div class="flex gap-2 items-center ">
                                         @can("edit-user")
                                             <a href="{{route("admin.users.edit",$user->id)}}">
                                                 <svg xmlns="http://www.w3.org/2000/svg" height="24px"
@@ -136,7 +136,7 @@
                                         @endcan
                                         @can("see-user")
                                             <a href="{{route("admin.users.show",$user->id)}}">
-                                                <svg xmlns="http://www.w3.org/2000/svg" height="24px"   width="24px"
+                                                <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px"
                                                      xmlns:xlink="http://www.w3.org/1999/xlink" fill="#4287f5"
                                                      version="1.1" id=""
                                                      viewBox="0 0 442.04 442.04" xml:space="preserve">
@@ -158,13 +158,19 @@
                                             </a>
                                         @endcan
 
+                                        @can("allow-to-set-permission")
+                                            <a href="{{route("admin.users.permission",$user->id)}}"
+                                               class="rounded bg-blue-500 hover:bg-blue-600 px-3 py-2 text-white"
+                                            >ثبت دسترسی برای کاربر</a>
+                                        @endcan
+
                                     </div>
                                 </td>
                             </tr>
                         @endforeach
                         </tbody>
                     </table>
-                    {{$teachers->appends(['search'=>request('search')])->links('layouts.paginate')}}
+                    {{$users->appends(['search'=>request('search')])->links('layouts.paginate')}}
                 </div>
             </div>
         </div>
