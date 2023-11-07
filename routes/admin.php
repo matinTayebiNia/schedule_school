@@ -2,6 +2,7 @@
 
 
 use App\Http\Controllers\Admin\LessenController;
+use App\Http\Controllers\Admin\Permission\RoleController;
 use App\Http\Controllers\Admin\Permission\UserController;
 use App\Http\Controllers\Admin\SchoolClassController;
 use App\Http\Controllers\Admin\SchoolController;
@@ -42,6 +43,8 @@ Route::prefix("/lessen")->name("lessen.")->group(function () {
     Route::get("/edit/{lessen}", EditLessen::class)->name("edit");
     Route::get("/create", CreateLessen::class)->name("create");
 });
+
+Route::resource("roles",RoleController::class)->except(["show"]);
 
 Route::prefix("/school")->name("school.")->group(function () {
     Route::get("/", [SchoolController::class, "index"])->name("index");

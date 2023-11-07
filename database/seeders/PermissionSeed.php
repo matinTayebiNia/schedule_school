@@ -40,11 +40,15 @@ class PermissionSeed extends Seeder
                 "name" => "see-user"
             ],
             [
+                "name" => "create-user"
+            ],
+            [
                 "name" => "delete-user"
             ],
             [
                 "name" => "update-user"
             ],
+            // roles
             [
                 "name" => "edit-role"
             ],
