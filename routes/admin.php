@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\SchoolClassController;
 use App\Http\Controllers\Admin\SchoolController;
 use App\Http\Controllers\Admin\StudentController;
 use App\Http\Controllers\Admin\TeacherController;
+use App\Http\Controllers\Admin\UnitController;
 use App\Livewire\Admin\Lessen\CreateLessen;
 use App\Livewire\Admin\Lessen\EditLessen;
 use App\Livewire\Admin\School\CreateSchool;
@@ -45,6 +46,8 @@ Route::prefix("/lessen")->name("lessen.")->group(function () {
 });
 
 Route::resource("roles",RoleController::class)->except(["show"]);
+
+Route::resource("units", UnitController::class);
 
 Route::prefix("/school")->name("school.")->group(function () {
     Route::get("/", [SchoolController::class, "index"])->name("index");

@@ -125,7 +125,22 @@ class PermissionSeed extends Seeder
             [
                 "name" => "update-class"
             ],
-            //
+            //units
+            [
+                "name" => "create-unite"
+            ],
+            [
+                "name" => "see-unites"
+            ],
+            [
+                "name" => "see-unite"
+            ],
+            [
+                "name" => "delete-unite"
+            ],
+            [
+                "name" => "update-unite"
+            ],
         ];
 
         DB::table("permissions")->upsert($data, "name");

@@ -9,6 +9,17 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+/**
+ *
+ * @property  string $class_id
+ * @property  string $teacher_id
+ * @property  string $lessen_id
+ * @property string $weekday
+ * @property string $start_time
+ * @property string $end_time
+ * @property string $student_limit
+ *
+ **/
 class Unit extends Model
 {
     use HasFactory, SoftDeletes;
@@ -40,6 +51,26 @@ class Unit extends Model
         '6' => 'Thursday',
         '7' => 'Friday',
     ];
+
+    public function convertToPersianDay()
+    {
+        switch ($this->weekday) {
+            case "Saturday":
+                return "شنبه";
+            case "Sunday":
+                return "یکشنبه";
+            case "Monday":
+                return "دوشنبه";
+            case "Tuesday":
+                return "سه شنبه";
+            case "Wednesday":
+                return "چهارشنبه";
+            case "Thursday":
+                return "پنج شنبه";
+            case "Friday":
+                return "جمعه";
+        }
+    }
 
     public function getDifferenceAttribute(): int
     {

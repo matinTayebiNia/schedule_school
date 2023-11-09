@@ -23,7 +23,6 @@ class EditRoleRequest extends FormRequest
      */
     public function rules(): array
     {
-
         return [
             "name" => ["required", Rule::unique("roles")->ignore($this->role->name
                 , "name"), "string", "min:3"],
