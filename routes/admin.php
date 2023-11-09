@@ -45,9 +45,11 @@ Route::prefix("/lessen")->name("lessen.")->group(function () {
     Route::get("/create", CreateLessen::class)->name("create");
 });
 
-Route::resource("roles",RoleController::class)->except(["show"]);
+Route::resource("roles", RoleController::class)->except(["show"]);
 
 Route::resource("units", UnitController::class);
+
+Route::get("/units/{school}/class", [UnitController::class, "getClassOfSchool"])->name("unit.class");
 
 Route::prefix("/school")->name("school.")->group(function () {
     Route::get("/", [SchoolController::class, "index"])->name("index");

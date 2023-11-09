@@ -16,6 +16,7 @@
                             </x-label-input-dashboard>
                             <select class="js-example-basic-single foo w-1/2" id="school"
                                     name="school">
+                                <option value=""> انتخاب کنید</option>
                                 @foreach(\App\Models\School::all() as $school)
                                     <option
                                         value="{{$school->id}}"
@@ -84,7 +85,7 @@
                         <div class="relative">
                             <x-label-input-dashboard for="student_limit" label="ظرفیت دانشجو">
                             </x-label-input-dashboard>
-                            <x-input-dashboard  name="student_limit" id="student_limit"
+                            <x-input-dashboard name="student_limit" id="student_limit"
                                                placeholder="ظرفبت دانشجو را وارد کنید">
                             </x-input-dashboard>
 
@@ -120,12 +121,33 @@
         </div>
     </div>
 
+    @section("script")
+        <script>
+
+            document.getElementById("school").addEventListener("change", async (e) => {
+                e.preventDefault();
+                let url = `/admin/units/${e.target.value}/class`;
+                const class_id = $('#class_id');
+                fetch(`{{env("APP_URL")}}${url}`, {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+                }).then(res => res.json())
+                    .then(res => {
+                        $("#class_id option[value='']").each(function() {
+                            $(this).remove();
+                        });
+                        res.data.forEach(item => {
+                            let newOption = new Option(item.name, item.id, true, true)
+                            class_id.append(newOption);
+                        })
+                    })
+            })
+
+
+        </script>
+    @endsection
 </x-admin-layout>
 
-@section("script")
-    <script>
-        $(document).ready(() => {
-            $('.js-example-basic-single').select2();
-        })
-    </script>
-@endsection
+

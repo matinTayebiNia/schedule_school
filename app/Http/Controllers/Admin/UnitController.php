@@ -6,11 +6,15 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Unite\DestroyUniteRequest;
 use App\Http\Requests\Admin\Unite\EditUniteRequest;
 use App\Http\Requests\Admin\Unite\StoreUniteRequest;
+use App\Http\Resources\Admin\Unit\ClassResurces;
+use App\Models\School;
 use App\Models\Unit;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class UnitController extends Controller
 {
@@ -110,6 +114,15 @@ class UnitController extends Controller
 
         return redirect(route("admin.units.index"))->with("success", "واحد مورد نظر با موفقیت ویرایش شد");
 
+    }
+
+    /**
+     * @param School $school
+     * @return AnonymousResourceCollection
+     */
+    public function getClassOfSchool(School $school): AnonymousResourceCollection
+    {
+        return ClassResurces::collection($school->classes);
     }
 
     /**
