@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Unite\DestroyUniteRequest;
 use App\Http\Requests\Admin\Unite\EditUniteRequest;
 use App\Http\Requests\Admin\Unite\StoreUniteRequest;
-use App\Http\Resources\Admin\Unit\ClassResurces;
+use App\Http\Resources\Admin\Unit\ClassResources;
 use App\Models\School;
 use App\Models\Unit;
 use Illuminate\Auth\Access\AuthorizationException;
@@ -79,6 +79,7 @@ class UnitController extends Controller
 
     public function store(StoreUniteRequest $request): RedirectResponse
     {
+        $request->offsetUnset("school");
 
         Unit::create($request->all());
 
@@ -110,6 +111,8 @@ class UnitController extends Controller
     public function update(Unit $unit, EditUniteRequest $request): RedirectResponse
     {
 
+        $request->offsetUnset("school");
+
         $unit->update($request->all());
 
         return redirect(route("admin.units.index"))->with("success", "واحد مورد نظر با موفقیت ویرایش شد");
@@ -122,7 +125,7 @@ class UnitController extends Controller
      */
     public function getClassOfSchool(School $school): AnonymousResourceCollection
     {
-        return ClassResurces::collection($school->classes);
+        return ClassResources::collection($school->classes);
     }
 
     /**

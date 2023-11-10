@@ -22,15 +22,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  **/
 class Unit extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory;
 
     protected $table = "units";
-
-    protected $dates = [
-        "created_at",
-        "updated_at",
-        "deleted_at"
-    ];
 
     protected $fillable = [
         "class_id",
@@ -43,33 +37,18 @@ class Unit extends Model
     ];
 
     const WEEK_DAYS = [
-        '1' => 'Saturday',
-        '2' => 'Sunday',
-        '3' => 'Monday',
-        '4' => 'Tuesday',
-        '5' => 'Wednesday',
-        '6' => 'Thursday',
-        '7' => 'Friday',
+        1 => 'شنبه',
+        2 => 'یکشنبه',
+        3 => 'دوشنبه',
+        4 => 'سه شنبه',
+        5 => 'چهارشنبه',
+        6 => 'پنج شنبه',
+        7 => 'جمعه',
     ];
 
-    public function convertToPersianDay()
+    public function convertToPersianDay(): string
     {
-        switch ($this->weekday) {
-            case "Saturday":
-                return "شنبه";
-            case "Sunday":
-                return "یکشنبه";
-            case "Monday":
-                return "دوشنبه";
-            case "Tuesday":
-                return "سه شنبه";
-            case "Wednesday":
-                return "چهارشنبه";
-            case "Thursday":
-                return "پنج شنبه";
-            case "Friday":
-                return "جمعه";
-        }
+        return self::WEEK_DAYS[$this->weekday];
     }
 
     public function getDifferenceAttribute(): int

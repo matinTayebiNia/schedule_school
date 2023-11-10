@@ -101,7 +101,7 @@
                             <tr>
                                 <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                     <p class="text-gray-900 whitespace-no-wrap">
-                                        {{$unit->class->school->name}}
+                                        {{$unit->class->school->name}}({{$unit->class->name}})
                                     </p>
                                 </td>
                                 <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
@@ -111,7 +111,7 @@
                                 </td>
                                 <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                     <p class="text-gray-900 whitespace-no-wrap">
-                                        {{$unit->teacher->name}}({{$unit->teacher->personal_code}})
+                                        {{$unit->teacher->name." ".$unit->teacher->family}}({{$unit->teacher->personal_code}})
                                     </p>
                                 </td>
                                 <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
@@ -220,9 +220,7 @@
                 <form action="{{route("admin.units.destroy",rand(11,99))}}" x-show="showModal" method="post" class="my-2">
                     @method("DELETE")
                     @csrf
-                    <input type="hidden" name="student_id" :value="$data.target_id">
-
-
+                    <input type="hidden" name="unit_id" :value="$data.target_id">
                     <!-- content -->
 
                     <p>ایا از حذف واحد  مورد نظر مطمئن هستید</p>

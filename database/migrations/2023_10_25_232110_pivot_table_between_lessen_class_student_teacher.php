@@ -27,7 +27,6 @@ return new class extends Migration {
             $table->time("end_time");
             $table->integer("student_limit");
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 
