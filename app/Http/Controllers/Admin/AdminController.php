@@ -23,8 +23,9 @@ class AdminController extends Controller
      */
     public function edit(Request $request): \Illuminate\View\View
     {
-        return view('profile.edit', [
+        return view('admin.profile.edit', [
             'user' => $request->user(),
+            "title"=>"ویرایش پروفایل"
         ]);
     }
 
@@ -38,7 +39,7 @@ class AdminController extends Controller
 
         $request->user()->save();
 
-        return Redirect::route('profile.edit')->with('status', 'profile-updated');
+        return Redirect::route('admin.dashboard')->with('success', 'اطلاهات مورد نظر با موفقیت ویرایش شد ');
 
     }
 }
