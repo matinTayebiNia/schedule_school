@@ -97,6 +97,8 @@ class CreateAdminUser extends Component
 
         $data = $this->validate();
 
+        $data["password"] = generatePasswordForNewUser($data["personal_code"], $data["password"]);
+
         User::create([...$data, "is_staff" => true]);
 
         session()->flash("success", "کاربر ادمین با موفقیت ثبت شد");

@@ -77,3 +77,5 @@ Route::prefix("/users")->name("users.")->group(function () {
     Route::post("/permission/{user}", [UserController::class, "setPermissions"])->name("permission");
 });
 
+
+

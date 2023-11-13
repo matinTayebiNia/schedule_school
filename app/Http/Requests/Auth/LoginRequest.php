@@ -38,11 +38,11 @@ class LoginRequest extends FormRequest
      *
      * @throws ValidationException
      */
-    public function authenticate($guard = "web"): void
+    public function authenticate(string $guard = "web"): void
     {
         $this->ensureIsNotRateLimited();
 
-        if (!Auth::guard($guard)->attempt($this->only('personal_code', 'password'),
+        if (!auth($guard)->attempt($this->only('personal_code', 'password'),
             $this->boolean('remember'))) {
             RateLimiter::hit($this->throttleKey());
 
@@ -77,11 +77,13 @@ class LoginRequest extends FormRequest
         ]);
     }
 
+
+
     /**
      * Get the rate limiting throttle key for the request.
      */
     public function throttleKey(): string
     {
-        return Str::transliterate(Str::lower($this->input('email')) . '|' . $this->ip());
+        return Str::transliterate($this->input('personal_code') . '|' . $this->ip());
     }
 }

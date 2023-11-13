@@ -72,11 +72,11 @@ return [
             'driver' => 'eloquent',
             'model' => App\Models\User::class,
         ],
-        "teacher" => [
+        "teachers" => [
             'driver' => 'eloquent',
             'model' => App\Models\Teacher::class,
         ],
-        "student" => [
+        "students" => [
             'driver' => 'eloquent',
             'model' => App\Models\Student::class,
         ]
@@ -112,13 +112,13 @@ return [
             'expire' => 60,
             'throttle' => 60,
         ],
-        'teacher' => [
+        'teachers' => [
             'provider' => 'teachers',
             'table' => 'password_resets',
             'expire' => 60,
             'throttle' => 60,
         ],
-        'student' => [
+        'students' => [
             'provider' => 'students',
             'table' => 'password_resets',
             'expire' => 60,

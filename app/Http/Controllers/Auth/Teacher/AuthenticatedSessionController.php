@@ -1,10 +1,9 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers\Auth\Teacher;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
-use App\Providers\RouteServiceProvider;
 use App\services\AuthService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -15,24 +14,20 @@ use Illuminate\View\View;
 
 class AuthenticatedSessionController extends Controller
 {
-    /**
-     * Display the login view.
-     */
     public function create(): View
     {
-        $title = "ورود ادمین";
-        return view('auth.login', compact("title"));
+        $title = "ورود معلم";
+        return view("teacher.auth.login", compact("title"));
     }
 
     /**
-     * Handle an incoming authentication request.
      * @throws ValidationException
      */
     public function store(LoginRequest $request): RedirectResponse
     {
-        AuthService::login($request);
+        AuthService::login($request, "teacher");
 
-        return redirect(route("admin.dashboard"));
+        return Redirect::route("teacher.dashboard");
     }
 
     /**
@@ -40,10 +35,9 @@ class AuthenticatedSessionController extends Controller
      */
     public function destroy(Request $request): RedirectResponse
     {
-
-        AuthService::logout($request);
+        AuthService::logout($request, "teacher");
 
         return Redirect::to("/");
-
     }
+
 }

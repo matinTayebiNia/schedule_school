@@ -5,6 +5,7 @@ namespace App\Livewire\Admin\Teacher;
 use App\Models\Teacher;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\Hash;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
@@ -28,7 +29,7 @@ class Create extends Component
     #[On("set_profile_image")]
     public function setProfileImage($image)
     {
-        $this->profile_image=$image;
+        $this->profile_image = $image;
     }
 
     /**
@@ -37,8 +38,8 @@ class Create extends Component
     public function render(): View
     {
 
-        $title="ثبت معلم";
-        return view('admin.teacher.create',compact("title"))
+        $title = "ثبت معلم";
+        return view('admin.teacher.create', compact("title"))
             ->layout("admin.layouts.admin-layout");
     }
 
@@ -48,8 +49,8 @@ class Create extends Component
             "name" => ["required", "min:3", "max:200"],
             "family" => ["required", "min:3", "max:200"],
             "password" => ["required", "min:8"],
-            "phone" => ["required","unique:teachers", "numeric", "digits:11"],
-            "personal_code" => ["required","unique:teachers", "numeric", "digits:10"],
+            "phone" => ["required", "unique:teachers", "numeric", "digits:11"],
+            "personal_code" => ["required", "unique:teachers", "numeric", "digits:10"],
             "address" => ["required"],
             "profile_image" => ["nullable"]
         ];
@@ -98,6 +99,9 @@ class Create extends Component
 
         $this->validate();
 
+        // generate password for new teacher and student
+        $this->password = generatePasswordForNewUser($this->personal_code, $this->password);
+
         Teacher::create($this->all());
 
         session()->flash("success", "معلم با موفقیت ثبت شد");
@@ -105,5 +109,6 @@ class Create extends Component
         $this->redirect(route("admin.teacher.index"));
 
     }
+
 
 }

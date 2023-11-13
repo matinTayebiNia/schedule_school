@@ -87,6 +87,8 @@ class CreateStudent extends Component
 
         $this->validate();
 
+        $this->password = generatePasswordForNewUser( $this->personal_code,$this->password);
+
         Student::create($this->all());
 
         session()->flash("success", "دانش آموز مورد نظر با موفقیت ثبت شد.");
