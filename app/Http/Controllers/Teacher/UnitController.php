@@ -9,6 +9,7 @@ use App\services\CalendarService;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class UnitController extends Controller
 {
@@ -31,7 +32,7 @@ class UnitController extends Controller
      */
     public function show(Unit $unit): View
     {
-        $this->authorize("view", $unit->id);
+        $this->authorize("viewUnit", $unit);
 
         return view("teacher.unit.show", compact("unit"));
 

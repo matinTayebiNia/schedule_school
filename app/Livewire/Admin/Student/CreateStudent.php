@@ -5,27 +5,29 @@ namespace App\Livewire\Admin\Student;
 use App\Models\Student;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
 class CreateStudent extends Component
 {
-    public string $name="";
+    public string $name = "";
 
-    public string $family="";
+    public string $family = "";
 
-    public string $password="";
+    public string $password = "";
 
-    public string $personal_code="";
+    public string $personal_code = "";
 
-    public string $address="";
+    public string $address = "";
 
-    public string $profile_image="";
+    public string $profile_image = "";
 
     #[On("set_profile_image")]
     public function setProfileImage($image)
     {
-        $this->profile_image=$image;
+        $this->profile_image = $image;
     }
 
 
@@ -57,7 +59,7 @@ class CreateStudent extends Component
             "name" => ["required", "min:3", "max:200"],
             "family" => ["required", "min:3", "max:200"],
             "password" => ["required", "min:8"],
-            "personal_code" => ["required", "unique:students", "numeric", "digits:10"],
+            "personal_code" => ["required", Rule::unique("students", "personal_code")->whereNull("deleted_at"), "numeric", "digits:10"],
             "address" => ["required"],
             "profile_image" => ["nullable"]
         ];
@@ -87,7 +89,7 @@ class CreateStudent extends Component
 
         $this->validate();
 
-        $this->password = generatePasswordForNewUser( $this->personal_code,$this->password);
+        $this->password = Hash::make($this->password);
 
         Student::create($this->all());
 

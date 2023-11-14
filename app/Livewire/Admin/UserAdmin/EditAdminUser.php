@@ -58,7 +58,7 @@ class EditAdminUser extends Component
      */
     public function mount(User $user)
     {
-        $this->authorize("edit-user");
+        $this->authorize("update-user");
 
         $this->user_id = $user->id;
 
@@ -83,7 +83,7 @@ class EditAdminUser extends Component
     public function update(User $user)
     {
 
-        $this->authorize("edit-user");
+        $this->authorize("update-user");
 
         $data = $this->validating($user);
 

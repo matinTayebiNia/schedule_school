@@ -23,7 +23,7 @@ class EditLessen extends Component
      */
     public function mount(Lessen $lessen)
     {
-        $this->authorize("edit-lessen");
+        $this->authorize("update-lessen");
 
         $this->lessen_id = $lessen->id;
 
@@ -48,7 +48,7 @@ class EditLessen extends Component
     public function update(Lessen $lessen)
     {
 
-        $this->authorize("edit-lessen");
+        $this->authorize("update-lessen");
 
         $data = $this->validating($lessen);
 

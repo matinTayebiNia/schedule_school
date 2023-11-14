@@ -15,9 +15,12 @@ class UserController extends Controller
 {
     /**
      * @return View
+     * @throws AuthorizationException
      */
     public function index(): View
     {
+
+        $this->authorize("see-users");
 
         $query = User::query();
 

@@ -33,7 +33,7 @@ class EditSchool extends Component
      */
     public function mount(School $school)
     {
-        $this->authorize("edit-school");
+        $this->authorize("update-school");
 
         $this->school_id = $school->id;
 
@@ -48,7 +48,7 @@ class EditSchool extends Component
      */
     public function update(School $school)
     {
-        $this->authorize("edit-school");
+        $this->authorize("update-school");
 
         $data = $this->validate();
 

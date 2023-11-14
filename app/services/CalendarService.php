@@ -31,9 +31,10 @@ class CalendarService
 
                 if ($unit) {
                     $calendarData[$timeText][] = [
-                        "unit_id"=>$unit->id,
+                        "unit_id" => $unit->id,
                         'class_name' => $unit->class->school->name . "(" . $unit->class->name . ")",
                         'teacher_name' => $unit->teacher->name . " " . $unit->teacher->family,
+                        "lessen_name" => $unit->lessen->name,
                         'rowspan' => $unit->difference / 30 ?? ''
                     ];
                 } else if (!$units->where('weekday', $index)
@@ -45,9 +46,9 @@ class CalendarService
                 }
             }
 
-            return $calendarData;
-
         }
+
+        return $calendarData;
 
 
     }

@@ -1,5 +1,5 @@
 <div>
-    @can("edit-student")
+    @can("update-student")
         <div>
 
             <div class="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">

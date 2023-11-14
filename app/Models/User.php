@@ -21,7 +21,6 @@ use Laravel\Sanctum\HasApiTokens;
  * @property string $address;
  * @property string $password;
  * @property boolean $is_staff;
- * @property boolean $is_superuser;
  *
  **/
 class User extends Authenticatable
@@ -42,7 +41,6 @@ class User extends Authenticatable
         'profile_image',
         'password',
         "is_staff",
-        "is_superuser"
     ];
 
     protected $guarded = [
@@ -61,14 +59,10 @@ class User extends Authenticatable
         'remember_token',
     ];
 
-    public function isSuperuser(): bool
-    {
-        return $this->is_superuser == 1;
-    }
 
     public function isAdmin(): bool
     {
-        return $this->isSuperuser() || $this->isStaff();
+        return $this->isStaff();
     }
 
     /**
@@ -101,6 +95,7 @@ class User extends Authenticatable
      */
     public function hesAllowed(Permission $permission): bool
     {
+
         // If the user was an employee. It is checked whether access is allowed or not.
         return $this->permissions->contains("name", $permission->name) ||
             $this->hasRole($permission->roles);

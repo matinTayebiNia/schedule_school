@@ -41,7 +41,7 @@ class EditStudent extends Component
      */
     public function mount(Student $student)
     {
-        $this->authorize("edit-student");
+        $this->authorize("update-student");
 
         $this->student_id = $student->id;
 
@@ -69,7 +69,7 @@ class EditStudent extends Component
      */
     public function update(Student $student)
     {
-        $this->authorize("edit-student");
+        $this->authorize("update-student");
 
         $data = $this->validating($student);
 

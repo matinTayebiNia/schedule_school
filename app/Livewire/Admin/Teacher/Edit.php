@@ -43,7 +43,7 @@ class Edit extends Component
      */
     public function mount(Teacher $teacher)
     {
-        $this->authorize("edit-teacher");
+        $this->authorize("update-teacher");
 
         $this->teacher_id = $teacher->id;
 
@@ -77,7 +77,7 @@ class Edit extends Component
      */
     public function update(Teacher $teacher)
     {
-        $this->authorize("edit-teacher");
+        $this->authorize("update-teacher");
 
         $data = $this->validating($teacher);
 

@@ -13,7 +13,7 @@ class EditUniteRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return Gate::allows("edit-unite");
+        return Gate::allows("update-unite");
     }
 
     /**

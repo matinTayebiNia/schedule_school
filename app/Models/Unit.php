@@ -99,24 +99,6 @@ class Unit extends Model
         return $this->belongsToMany(Student::class);
     }
 
-    public static function isTimeAvailable($weekday, $startTime, $endTime, $class, $teacher, $unit): bool
-    {
-        $units = self::where('weekday', $weekday)
-            ->when($unit, function ($query) use ($unit) {
-                $query->where('id', '!=', $unit);
-            })
-            ->where(function ($query) use ($class, $teacher) {
-                $query->where('class_id', $class)
-                    ->orWhere('teacher_id', $teacher);
-            })
-            ->where([
-                ['start_time', '<', $endTime],
-                ['end_time', '>', $startTime],
-            ])
-            ->count();
-
-        return !$units;
-    }
 
 
     public function scopeCalendarByRoleOrUnitId($query)

@@ -79,7 +79,7 @@
                                     {{$class->name}}
                                 </h5>
                                 <div class="flex gap-3">
-                                    @can("edit-class")
+                                    @can("update-class")
                                         <a
                                             href="{{route("admin.class.edit",["school"=>request()->route()->school->id,"class"=>$class->id])}}"
                                             class="inline-block rounded bg-blue-600 px-6 pb-2 pt-2.5 text-xs font-medium uppercase

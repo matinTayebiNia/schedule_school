@@ -54,7 +54,7 @@ class SchoolClassController extends Controller
      */
     public function edit(int $school, SchoolClass $class): View
     {
-        $this->authorize("edit-class");
+        $this->authorize("update-class");
         $title = "ویرایش کلاس";
         return view("admin.class.edit", compact("title", "class", 'school'));
     }

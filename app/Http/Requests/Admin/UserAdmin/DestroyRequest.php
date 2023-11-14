@@ -12,7 +12,7 @@ class DestroyRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return Gate::allows("delete-admin");
+        return Gate::allows("delete-user");
     }
 
     /**

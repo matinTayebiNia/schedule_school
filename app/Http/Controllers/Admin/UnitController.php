@@ -95,7 +95,7 @@ class UnitController extends Controller
     public function edit(Unit $unit): View
     {
 
-        $this->authorize("edit-unite");
+        $this->authorize("update-unite");
 
         $title = "ویرایش واحد";
 
@@ -110,6 +110,7 @@ class UnitController extends Controller
      */
     public function update(Unit $unit, EditUniteRequest $request): RedirectResponse
     {
+
 
         $request->offsetUnset("school");
 
