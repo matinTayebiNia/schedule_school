@@ -6,10 +6,10 @@
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
 
-    <form method="POST" action="{{ route('password.email') }}">
-        @csrf
+    <form method="POST" action="{{ route('teacher.password.phone') }}">
+    @csrf
 
-        <!-- phone -->
+    <!-- phone -->
         <div>
             <x-input-label for="phone" :value="__('phone')" ></x-input-label>
             <x-text-input id="phone" class="block mt-1 w-full" type="text" name="phone" :value="old('phone')"

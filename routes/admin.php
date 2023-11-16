@@ -45,7 +45,7 @@ Route::prefix("/lessen")->name("lessen.")->group(function () {
     Route::get("/create", CreateLessen::class)->name("create");
 });
 
-Route::resource("roles", RoleController::class)->except(["show"]);
+Route::resource("roles", RoleController::class)->middleware("password.confirm")->except(["show"]);
 
 Route::resource("units", UnitController::class);
 

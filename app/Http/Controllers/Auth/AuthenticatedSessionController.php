@@ -20,7 +20,7 @@ class AuthenticatedSessionController extends Controller
      */
     public function create(): View
     {
-        $title = "ورود ادمین";
+        $title = "ورود کارمند";
         return view('auth.login', compact("title"));
     }
 

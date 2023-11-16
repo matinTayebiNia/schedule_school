@@ -1,5 +1,5 @@
 <x-guest-layout title="ورود معلم">
-    <x-auth-session-status class="mb-4" :status="session('status')">
+    <x-auth-session-status class="mb-4" :status="session('success')">
     </x-auth-session-status>
     <form action="{{route("teacher.login")}}" method="POST">
     @csrf
@@ -33,11 +33,13 @@
         </div>
 
         <div class="flex items-center justify-end mt-4">
-            {{--   @if (Route::has('password.request'))
-                   <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('password.request') }}">
-                       {{ __('Forgot your password?') }}
-                   </a>
-               @endif--}}
+            @if (Route::has('teacher.password.request'))
+                <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md
+                    focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                   href="{{ route('teacher.password.request') }}">
+                    {{ __('رمزعبور خود را فراموش کرده اید ؟') }}
+                </a>
+            @endif
 
             <x-primary-button class="ml-3">
                 ورود

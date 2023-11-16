@@ -1,34 +1,32 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers\Auth\Teacher;
 
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
-use Illuminate\View\View;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 
-class ConfirmablePasswordController extends Controller
+class ConformablePasswordController extends Controller
 {
-    /**
-     * Show the confirm password view.
-     */
     public function show(): View
     {
-        return view('auth.confirm-password');
+        return view("teacher.auth.confirm");
     }
 
     /**
-     * Confirm the user's password.
      * @throws ValidationException
      */
     public function store(Request $request): RedirectResponse
     {
-        if (!Auth::guard('web')->validate([
-            'personal_code' => auth("web")->user()->personal_code,
-            'password' => $request->password,
+        if (!Auth::guard('teacher')->validate([
+            'personal_code' => auth("teacher")->user()->personal_code,
+            'password' => $request->input("password"),
         ])) {
             throw ValidationException::withMessages([
                 'password' => __('auth.password'),
@@ -37,6 +35,8 @@ class ConfirmablePasswordController extends Controller
 
         $request->session()->put('auth.password_confirmed_at', time());
 
-        return redirect()->intended(RouteServiceProvider::ADMIN_HOME);
+
+        return redirect()->intended(RouteServiceProvider::TEACHER_HOME);
+
     }
 }

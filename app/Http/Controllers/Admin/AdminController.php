@@ -15,6 +15,7 @@ class AdminController extends Controller
     public function index(): View
     {
         // todo : change svg icon
+//        session()->flash("auth.password_confirmed_at");
         return view("admin.index");
     }
 

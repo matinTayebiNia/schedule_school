@@ -7,6 +7,8 @@ use App\Http\Controllers\Auth\ConfirmablePasswordController;
 use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use \App\Http\Controllers\Auth\Teacher\AuthenticatedSessionController as TeacherAuthenticatedSessionController;
+use \App\Http\Controllers\Auth\Teacher\NewPasswordController as TeacherNewPasswordController;
+use \App\Http\Controllers\Auth\Teacher\PasswordResetLinkController as TeacherPasswordResetLinkController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -25,9 +27,29 @@ Route::get('/', function () {
 });
 
 Route::prefix("/teacher")->middleware(["guest:teacher"])->name("teacher.")->group(function () {
-    Route::get("/login", [TeacherAuthenticatedSessionController::class, "create"])->name("login");
+    Route::get("login", [TeacherAuthenticatedSessionController::class, "create"])->name("login");
 
-    Route::post("/login", [TeacherAuthenticatedSessionController::class, "store"])->name("login");
+    Route::post("login", [TeacherAuthenticatedSessionController::class, "store"])->name("login");
+
+    Route::get('forgot-password', [TeacherPasswordResetLinkController::class, 'create'])
+        ->name('password.request');
+
+    Route::post('forgot-password', [TeacherPasswordResetLinkController::class, 'store'])
+        ->name('password.phone');
+
+
+    Route::get('reset-password',[TeacherNewPasswordController::class,"create"])
+        ->middleware("VerifyCode")
+        ->name("reset.password");
+
+    Route::post('reset-password',[TeacherNewPasswordController::class,"store"])
+        ->name("reset.store");
+
+    Route::post("resend-code",[TeacherNewPasswordController::class,"resend"])
+        ->middleware("VerifyCode")
+        ->name("resend.code");
+
+
 });
 
 
@@ -42,13 +64,18 @@ Route::middleware('guest')->group(function () {
         ->name('password.request');
 
     Route::post('forgot-password', [PasswordResetLinkController::class, 'store'])
-        ->name('password.email');
+        ->name('password.phone');
 
-    Route::get('reset-password/{token}', [NewPasswordController::class, 'create'])
+    Route::get('reset-password', [NewPasswordController::class, 'create'])
+        ->middleware("VerifyCode")
         ->name('password.reset');
 
     Route::post('reset-password', [NewPasswordController::class, 'store'])
         ->name('password.store');
+
+    Route::post("resend-code",[NewPasswordController::class,"resend"])
+        ->middleware("VerifyCode")
+        ->name("resend.code");
 });
 
 Route::middleware('auth')->group(function () {
