@@ -15,6 +15,13 @@ use Illuminate\View\View;
 
 class PasswordResetLinkController extends Controller
 {
+
+    public function __construct()
+    {
+        AuthService::$user = User::class;
+    }
+
+
     /**
      * Display the password reset link request view.
      */
@@ -40,7 +47,8 @@ class PasswordResetLinkController extends Controller
         $admin = AuthService::createForgotCode($request);
 
         if (!is_null($admin)) {
-            return Redirect::route("password.reset");
+            return Redirect::route("password.reset")
+                ->with("success","کد به شماره همراه شما ارسال شد");
         }
 
 

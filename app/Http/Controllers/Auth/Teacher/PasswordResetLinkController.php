@@ -48,7 +48,9 @@ class PasswordResetLinkController extends Controller
         $teacher = AuthService::createForgotCode($request);
 
         if (!is_null($teacher)) {
-            return Redirect::route("teacher.reset.password");
+            return Redirect::route("teacher.reset.password")
+                ->with("success","کد به شماره همراه شما ارسال شد");
+
         }
 
         throw ValidationException::withMessages([
