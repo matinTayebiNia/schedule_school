@@ -1,4 +1,4 @@
-<x-guest-layout title="ورود ادمین">
+<x-guest-layout title="ورود کاربر">
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('success')" />
 

@@ -6,15 +6,15 @@
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
 
-    <form method="POST" action="{{ route('password.email') }}">
+    <form method="POST" action="{{ route('password.phone') }}">
         @csrf
 
         <!-- phone -->
         <div>
-            <x-input-label for="phone" :value="__('phone')" ></x-input-label>
+            <x-input-label for="phone" :value="__('تلفن همراه')" ></x-input-label>
             <x-text-input id="phone" class="block mt-1 w-full" type="text" name="phone" :value="old('phone')"
                           required autofocus > </x-text-input>
-            <x-input-error :messages="$errors->get('phone')" class="mt-2" ></x-input-error>
+            <x-input-error :messages="$errors->get('تلفن همراه')" class="mt-2" ></x-input-error>
         </div>
 
         <div class="flex items-center justify-end mt-4">

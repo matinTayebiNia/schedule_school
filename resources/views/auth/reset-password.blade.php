@@ -7,7 +7,7 @@
 
     <!-- Email Address -->
         <div>
-            <x-input-label for="code" :value="__('code')"/>
+            <x-input-label for="code" :value="__('کد تایید')"/>
             <x-text-input id="code" class="block mt-1 w-full" type="number" name="code"
                           autofocus autocomplete="username"/>
             <x-input-error :messages="$errors->get('code')" class="mt-2"/>
@@ -15,7 +15,7 @@
 
         <!-- Password -->
         <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')"/>
+            <x-input-label for="password" :value="__('رمز عبور')"/>
             <x-text-input id="password" class="block mt-1 w-full" type="password" name="password"
                           autocomplete="new-password"/>
             <x-input-error :messages="$errors->get('password')" class="mt-2"/>
@@ -23,7 +23,7 @@
 
         <!-- Confirm Password -->
         <div class="mt-4">
-            <x-input-label for="password_confirmation" :value="__('Confirm Password')"/>
+            <x-input-label for="password_confirmation" :value="__('تکرار رمز عبور')"/>
 
             <x-text-input id="password_confirmation" class="block mt-1 w-full"
                           type="password"

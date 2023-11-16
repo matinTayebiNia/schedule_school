@@ -11,7 +11,7 @@
 
     <!-- phone -->
         <div>
-            <x-input-label for="phone" :value="__('phone')" ></x-input-label>
+            <x-input-label for="phone" :value="__('تلفن همراه')" ></x-input-label>
             <x-text-input id="phone" class="block mt-1 w-full" type="text" name="phone" :value="old('phone')"
                           required autofocus > </x-text-input>
             <x-input-error :messages="$errors->get('phone')" class="mt-2" ></x-input-error>
