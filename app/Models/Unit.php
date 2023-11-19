@@ -100,18 +100,24 @@ class Unit extends Model
     }
 
 
-
-    public function scopeCalendarByRoleOrUnitId($query)
+    /**
+     * @param $query
+     * @return mixed
+     */
+    public function scopeCalendarByRoleOrUnitId($query): mixed
     {
-        return $query->when(!request()->input('unit_id'), function ($query) {
+        return $query->when(is_null(request()->route()->parameter('school')), function ($query) {
             if (Auth::guard('teacher')->check())
                 $query->where('teacher_id', auth("teacher")->user()->id);
             else if (Auth::guard('student')->check())
-                $query->whereHas("students",
-                    fn($q) => $q->whereIn('student_id', auth("student")->user()->id));
+                $query->whereHas("students", fn($q) => $q->whereIn('student_id', auth("student")->user()->id));
         })
-            ->when(request()->input('unit_id'), function ($query) {
-                $query->where('unit_id', request()->input('unit_id'));
+            ->when(!is_null(request()->route()->parameter('school')), function ($query) {
+                $query->whereHas("class", function ($query) {
+                    $query->whereHas("school", function ($query) {
+                        $query->where("id", request()->route()->parameter('school'));
+                    });
+                });
             });
     }
 }
