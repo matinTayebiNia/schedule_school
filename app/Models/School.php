@@ -40,4 +40,9 @@ class School extends Model
         return $this->hasMany(SchoolClass::class, "school_id", "id");
     }
 
+    public function students(): HasMany
+    {
+        return $this->hasMany(Student::class);
+    }
+
 }

@@ -12,6 +12,8 @@ use Livewire\Component;
 
 class CreateStudent extends Component
 {
+    public int $school_id = 0;
+
     public string $name = "";
 
     public string $family = "";
@@ -30,6 +32,12 @@ class CreateStudent extends Component
         $this->profile_image = $image;
     }
 
+    #[On("set_school_id")]
+    public function setSchoolId($id)
+    {
+        $this->school_id = $id;
+    }
+
 
     /**
      * @return string[]
@@ -46,6 +54,8 @@ class CreateStudent extends Component
             "password.required" => 'رمز عبور وارد نشده',
             "password.min" => "رمز عبور باید بیشنر از 8 کاراتر باشد",
             "personal_code.required" => "کد ملی وارد نشده",
+            "school_id.required" => "مدرسه ای انتخاب نشده",
+            "school_id.numeric" => "مدرسه ای انتخاب نشده",
             "personal_code.numeric" => 'کد ملی باید عدد باشد',
             "personal_code.digits" => 'کد ملی باید 10 عدد باشد',
             "personal_code.unique" => 'کد ملی تکراری میباشد',
@@ -61,7 +71,8 @@ class CreateStudent extends Component
             "password" => ["required", "min:8"],
             "personal_code" => ["required", Rule::unique("students", "personal_code")->whereNull("deleted_at"), "numeric", "digits:10"],
             "address" => ["required"],
-            "profile_image" => ["nullable"]
+            "profile_image" => ["nullable"],
+            "school_id" => ["required", "numeric"]
         ];
     }
 
@@ -89,7 +100,7 @@ class CreateStudent extends Component
 
         $this->validate();
 
-        $this->password = Hash::make($this->password);
+        $this->password = generatePasswordForNewUser($this->personal_code,$this->password);
 
         Student::create($this->all());
 

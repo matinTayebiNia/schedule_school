@@ -49,12 +49,13 @@ class CalendarService
     }
 
     /**
+     * @param string|null $school
      * @return mixed
      */
-    public function getUnits(): mixed
+    public function getUnits(string $school = null): mixed
     {
         return Unit::with('class', 'teacher', "lessen")
-            ->calendarByRoleOrUnitId()
+            ->calendarByRoleOrUnitId($school)
             ->get();
     }
 

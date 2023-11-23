@@ -49,7 +49,7 @@ class UnitController extends Controller
     {
         $title = "ثبت انتخاب واحد";
 
-        $units = $calendarService->getUnits();
+        $units = $calendarService->getUnits($school);
 
         return view("student.unit.create", compact("title", "units"));
 

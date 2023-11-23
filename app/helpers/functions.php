@@ -6,7 +6,10 @@ use Illuminate\Support\Facades\Route;
 if (!function_exists("unsetPasswordIfIsNull")) {
     function unsetPasswordIfIsNull(array $data): array
     {
-        if ($data["password"] == "") unset($data["password"]);
+        if ($data["password"] == "")
+            unset($data["password"]);
+        else
+            $data["password"] = Hash::make($data["password"]);
         return $data;
     }
 }
@@ -15,13 +18,14 @@ if (!function_exists("generatePasswordForNewUser")) {
     /**
      * @param string $password
      * @param string $personal_code
-     * @return string|void
+     * @return string
      */
-    function generatePasswordForNewUser(string $personal_code, string $password = "",)
+    function generatePasswordForNewUser(string $personal_code, string $password = "",): string
     {
         if ($password == "") {
             return Hash::make($personal_code);
         }
+        return Hash::make($password);
     }
 }
 

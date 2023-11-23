@@ -102,20 +102,21 @@ class Unit extends Model
 
     /**
      * @param $query
+     * @param null $school
      * @return mixed
      */
-    public function scopeCalendarByRoleOrUnitId($query): mixed
+    public function scopeCalendarByRoleOrUnitId($query, $school = null): mixed
     {
-        return $query->when(is_null(request()->route()->parameter('school')), function ($query) {
+        return $query->when(is_null($school), function ($query) {
             if (Auth::guard('teacher')->check())
                 $query->where('teacher_id', auth("teacher")->user()->id);
             else if (Auth::guard('student')->check())
                 $query->whereHas("students", fn($q) => $q->whereIn('student_id', auth("student")->user()->id));
         })
-            ->when(!is_null(request()->route()->parameter('school')), function ($query) {
-                $query->whereHas("class", function ($query) {
-                    $query->whereHas("school", function ($query) {
-                        $query->where("id", request()->route()->parameter('school'));
+            ->when(!is_null($school), function ($query) use ($school) {
+                $query->whereHas("class", function ($query) use ($school) {
+                    $query->whereHas("school", function ($query) use ($school) {
+                        $query->where("id", $school);
                     });
                 });
             });

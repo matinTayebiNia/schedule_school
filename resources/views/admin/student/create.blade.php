@@ -11,6 +11,27 @@
                 <div class="w-full rounded-lg block">
                     <form wire:submit.prevent="save" class=" w-full ">
                         <div class="relative">
+                            <x-label-input-dashboard for="school_id" label="مدرسه:">
+                            </x-label-input-dashboard>
+                            <select wire:model="school_id" id="school_id" class="  rounded-lg  flex-1
+                                                   appearance-none border
+                                                   w-full md:w-1/2 py-2 px-4 bg-white
+                                                    text-gray-700 placeholder-gray-400
+                                                    shadow-sm text-base focus:outline-none
+                                                    focus:ring-2 focus:ring-purple-600
+                                                    focus:border-transparent">
+                                <option value="">انتخاب کنید</option>
+                                @foreach(\App\Models\School::all() as $school)
+                                    <option
+                                        {{old("school_id")==$school->id ?"selected":""}} value="{{$school->id}}">{{$school->name}}
+                                        ::{{$school->address}}</option>
+                                @endforeach
+                            </select>
+                            <x-error-input-dashboard name="school_id">
+                            </x-error-input-dashboard>
+
+                        </div>
+                        <div class="relative">
                             <x-label-input-dashboard for="name" label="نام:"/>
                             <x-input-dashboard livewireModel="name" name="name" placeholder="نام را وارد کنید"/>
                             <x-error-input-dashboard name="name"/>
@@ -105,10 +126,16 @@
             });
         });
 
+        document.getElementById("school_id").addEventListener("change", e => {
+            e.preventDefault();
+            @this.dispatch("set_school_id", {"id": e.target.value});
+
+        })
+
         // set file link
         function fmSetLink(url) {
             document.getElementById("profile_image").value = url
-            @this.dispatch("set_profile_image", {"image": url});
+        @this.dispatch("set_profile_image", {"image": url});
         }
     </script>
 @endsection

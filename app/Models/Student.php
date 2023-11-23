@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -31,7 +32,8 @@ class Student extends Authenticatable
         "password",
         "personal_code",
         "address",
-        "profile_image"
+        "profile_image",
+        "school_id"
     ];
 
     protected $guarded = ["id"];
@@ -40,6 +42,11 @@ class Student extends Authenticatable
     public function units(): BelongsToMany
     {
         return $this->belongsToMany(Unit::class);
+    }
+
+    public function school(): BelongsTo
+    {
+        return $this->belongsTo(School::class);
     }
 
 }
