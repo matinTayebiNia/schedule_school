@@ -10,17 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
 
-/**
- *
- * @property  string $class_id
- * @property  string $teacher_id
- * @property  string $lessen_id
- * @property string $weekday
- * @property string $start_time
- * @property string $end_time
- * @property string $student_limit
- *
- **/
+
 class Unit extends Model
 {
     use HasFactory;
@@ -100,25 +90,5 @@ class Unit extends Model
     }
 
 
-    /**
-     * @param $query
-     * @param null $school
-     * @return mixed
-     */
-    public function scopeCalendarByRoleOrUnitId($query, $school = null): mixed
-    {
-        return $query->when(is_null($school), function ($query) {
-            if (Auth::guard('teacher')->check())
-                $query->where('teacher_id', auth("teacher")->user()->id);
-            else if (Auth::guard('student')->check())
-                $query->whereHas("students", fn($q) => $q->whereIn('student_id', auth("student")->user()->id));
-        })
-            ->when(!is_null($school), function ($query) use ($school) {
-                $query->whereHas("class", function ($query) use ($school) {
-                    $query->whereHas("school", function ($query) use ($school) {
-                        $query->where("id", $school);
-                    });
-                });
-            });
-    }
+
 }

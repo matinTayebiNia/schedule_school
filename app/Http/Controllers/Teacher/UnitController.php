@@ -32,7 +32,7 @@ class UnitController extends Controller
      */
     public function show(Unit $unit): View
     {
-        $this->authorize("viewUnit", $unit);
+        $this->authorize("view_teacher_unit", $unit);
 
         return view("teacher.unit.show", compact("unit"));
 

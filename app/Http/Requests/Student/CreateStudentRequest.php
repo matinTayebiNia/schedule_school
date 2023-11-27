@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Student;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class CreateStudentRequest extends FormRequest
 {
@@ -36,7 +37,7 @@ class CreateStudentRequest extends FormRequest
     {
         return [
             "units.required" => "واحدی انتخاب نشده",
-            "units.*" => "واحد باید لیستی از عداد باشد"
+            "units.*.numeric" => "واحد باید لیستی از عداد باشد",
         ];
     }
 }

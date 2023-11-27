@@ -13,7 +13,18 @@ return new class extends Migration {
         Schema::create('lessens', function (Blueprint $table) {
             $table->id();
             $table->string("name");
-            $table->integer("code")->unique();
+            $table->unsignedBigInteger("class_id");
+            $table->unsignedBigInteger("teacher_id");
+            $table->foreign("class_id")
+                ->references("id")->on("school_classes")->cascadeOnUpdate()
+                ->cascadeOnDelete();
+            $table->foreign("teacher_id")
+                ->references("id")->on("teachers")->cascadeOnUpdate()
+                ->cascadeOnDelete();
+            $table->unique(["teacher_id", "class_id"]);
+            $table->enum("weekday", ["1", "2", "3", "4", "5", "6", "7"]);
+            $table->time("start_time");
+            $table->time("end_time");
             $table->timestamps();
             $table->softDeletes();
         });

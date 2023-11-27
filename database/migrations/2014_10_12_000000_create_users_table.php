@@ -20,7 +20,6 @@ return new class extends Migration {
             $table->string("address");
             $table->string("profile_image")->nullable();
             $table->boolean("is_staff")->default(1);
-            $table->boolean("is_superuser")->default(0);
             $table->rememberToken();
             $table->timestamps();
         });

@@ -12,7 +12,14 @@ return new class extends Migration {
     {
         Schema::table('students', function (Blueprint $table) {
             $table->unsignedBigInteger("school_id")->after("id");
-            $table->foreign("school_id")->references('id')->on('schools')->cascadeOnDelete()
+            $table->unsignedBigInteger("class_id")->after("school_id");
+            $table->foreign("school_id")
+                ->references('id')
+                ->on('schools')->cascadeOnDelete()
+                ->cascadeOnUpdate();
+            $table->foreign("class_id")
+                ->references('id')
+                ->on('school_classes')->cascadeOnDelete()
                 ->cascadeOnUpdate();
         });
     }
@@ -24,6 +31,7 @@ return new class extends Migration {
     {
         Schema::table('students', function (Blueprint $table) {
             $table->dropColumn("school_id");
+            $table->dropColumn("class_id");
         });
     }
 };

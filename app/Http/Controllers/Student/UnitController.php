@@ -11,6 +11,7 @@ use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 
 class UnitController extends Controller
 {
@@ -24,7 +25,7 @@ class UnitController extends Controller
 
         $calendarData = $calendarService->generateCalendarData($weekdays);
 
-        return view("student.unit.index", compact("weekdays", "calendarData"));
+        return view("student.units.index", compact("weekdays", "calendarData"));
 
     }
 
@@ -37,7 +38,7 @@ class UnitController extends Controller
     {
         $this->authorize("view_unit_student", $unit);
 
-        return view("student.unit.show", compact("unit"));
+        return view("student.units.show", compact("unit"));
     }
 
     /**
@@ -45,14 +46,13 @@ class UnitController extends Controller
      * @param CalendarService $calendarService
      * @return View
      */
-    public function create(string $school,CalendarService $calendarService): View
+    public function create(string $school, CalendarService $calendarService): View
     {
         $title = "ثبت انتخاب واحد";
 
         $units = $calendarService->getUnits($school);
 
-        return view("student.unit.create", compact("title", "units"));
-
+        return view("student.units.create", compact("title", "units"));
     }
 
     /**
@@ -61,8 +61,25 @@ class UnitController extends Controller
      */
     public function store(CreateStudentRequest $request): RedirectResponse
     {
-        dd($request->all());
-        auth("student")->user()->units()->sync($request->input("units"));
+
+        $units = collect($request->input("units"));
+
+        $units->map(function ($unit) {
+            $data = Unit::find($unit);
+            if ($data->students->count() > $data->student_limit) {
+                throw ValidationException::withMessages([
+                    'unit' => "درس {$data->lessen->name} با مدرس {$data->teacher->name} {$data->teacher->family} هیچ ظرفیتی ندارد",
+                ]);
+            }
+            $student = $data->students()->where("student_id", auth("student")->user()->id)->first();
+            if ($student) {
+                throw ValidationException::withMessages([
+                    'unit' => "درس {$data->lessen->name} با مدرس {$data->teacher->name} {$data->teacher->family} برای شما ثبت شده است.",
+                ]);
+            }
+        });
+
+        auth("student")->user()->units()->sync($units->toArray());
 
         return redirect(route("student.units.index"))->with("success", "واحد های مورد نظر ثبت شد.");
     }

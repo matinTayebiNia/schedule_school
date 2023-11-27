@@ -30,13 +30,13 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Permission::all()->map(
+      /*  Permission::all()->map(
             fn(Permission $item) => Gate::define($item->name,
                 fn(Authenticatable $user) => $user instanceof User ?
                     $user->hesAllowed($item) :
                     false));
 
 
-        $this->registerPolicies();
+        $this->registerPolicies();*/
     }
 }
