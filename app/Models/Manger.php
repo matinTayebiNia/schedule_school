@@ -3,52 +3,49 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
 /**
  *
+ * @property int $id;
  * @property string $name;
  * @property string $family;
  * @property string $password;
- * @property string $phone;
  * @property string $personal_code;
  * @property string $address;
  * @property string $profile_image;
- * @property int $id
+ * @property integer $school_id;
+ * @property string $city;
+ * @property string $state;
  *
  **/
-class Teacher extends Authenticatable
+
+class Manger extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
+    use HasApiTokens, HasFactory, Notifiable;
 
     protected $fillable = [
         "name",
         "family",
         "password",
         "phone",
+        "personal_code",
         "state",
         "city",
-        "personal_code",
         "address",
-        "profile_image"
+        "profile_image",
+        "school_id"
     ];
 
+    protected $guarded = ["id"];
 
-    public function unit(): HasMany
+    public function school(): BelongsTo
     {
-        return $this->hasMany(Unit::class);
+        return $this->belongsTo(School::class);
     }
-
-    public function activeCode(): MorphMany
-    {
-        return $this->morphMany(ActiveCode::class, 'userable');
-    }
-
-
 
 }

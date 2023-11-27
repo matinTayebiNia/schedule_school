@@ -3,6 +3,7 @@
 namespace App\Livewire\Admin\Lessen;
 
 use App\Models\Lessen;
+use App\Rules\LessonTimeAvailabilityRule;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Str;
@@ -11,16 +12,45 @@ use Livewire\Component;
 
 class CreateLessen extends Component
 {
-    #[Rule("required", message: "نام الزامی میباشد")]
-    #[Rule("min:3", message: "مقدار وارد شده باید بیشتر از 3 کاراتر باشد")]
-    #[Rule("max:225", message: "مقدار وارد شده بیش از حد مجاز ")]
+
     public string $name = "";
 
-    #[Rule("required", message: "کد الزامی میباشد")]
-    #[Rule("digits:6", message: "مقدار وارد شده باید 6 عدد باشد ")]
-    #[Rule("unique:lessens", message: "کد درس تکراری میباشد")]
-    #[Rule("numeric", message: "کد درس باید عدد باشد")]
-    public string $code = "";
+    public string $class_id="";
+
+    public string $teacher_id="";
+
+    public function rules(): array
+    {
+        return [
+            "name" => ["required", "min:3", "max:225"],
+            'class_id'   => [
+                'required',
+                'integer'],
+            'teacher_id' => [
+                'required',
+                'integer'],
+            'weekday'    => [
+                'required',
+                'integer',
+                'min:1',
+                'max:7'],
+            'start_time' => [
+                'required',
+                new LessonTimeAvailabilityRule(),
+                'date_format:' . config('panel.lesson_time_format')],
+            'end_time'   => [
+                'required',
+                'after:start_time',
+                'date_format:' . config('panel.lesson_time_format')],
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+
+        ];
+    }
 
     /**
      * @throws AuthorizationException
@@ -28,8 +58,6 @@ class CreateLessen extends Component
     public function mount()
     {
         $this->authorize("create-lessen");
-
-        $this->code=rand(100000,999999);
     }
 
     public function render(): View

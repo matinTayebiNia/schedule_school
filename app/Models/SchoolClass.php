@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -30,14 +31,20 @@ class SchoolClass extends Model
         "deleted_at"
     ];
 
-    public function units(): HasMany
-    {
-        return $this->hasMany(Unit::class, "class_id", "id");
-    }
-
     public function school(): BelongsTo
     {
         return $this->belongsTo(School::class, "school_id");
+    }
+
+
+    public function lessens(): HasMany
+    {
+        return $this->hasMany(Lessen::class, 'class_id', 'id');
+    }
+
+    public function students(): HasMany
+    {
+        return $this->hasMany(Student::class, 'class_id', 'id');
     }
 
 }

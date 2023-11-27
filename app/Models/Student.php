@@ -32,6 +32,8 @@ class Student extends Authenticatable
         "password",
         "personal_code",
         "address",
+        "state",
+        "city",
         "profile_image",
         "school_id"
     ];
@@ -39,9 +41,9 @@ class Student extends Authenticatable
     protected $guarded = ["id"];
 
 
-    public function units(): BelongsToMany
+    public function SchoolClass(): BelongsTo
     {
-        return $this->belongsToMany(Unit::class);
+        return $this->belongsTo(SchoolClass::class);
     }
 
     public function school(): BelongsTo
