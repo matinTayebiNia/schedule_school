@@ -30,6 +30,8 @@ class School extends Model
     protected $fillable = [
         "name",
         "code",
+        "city",
+        "state",
         "address",
         'created_at',
         'updated_at',

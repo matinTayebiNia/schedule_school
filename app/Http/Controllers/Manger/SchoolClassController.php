@@ -3,63 +3,94 @@
 namespace App\Http\Controllers\Manger;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\class\CreateRequest;
+use App\Http\Requests\Admin\class\DeleteRequest;
+use App\Http\Requests\Admin\class\editRequest;
+use App\Models\School;
+use App\Models\SchoolClass;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class SchoolClassController extends Controller
 {
+
     /**
-     * Display a listing of the resource.
+     * @throws AuthorizationException
      */
-    public function index()
+    public function index(School $school): View
     {
-        //
+        $this->authorize("view_classes", $school->id);
+
+        $title = "کلاس های مدرسه " . $school->name;
+
+        $classes = $school->classes()->latest()->paginate(7);
+
+        return view("admin.class.index", compact("classes", "title"));
+
+    }
+
+
+    /**
+     * @param School $school
+     * @param CreateRequest $request
+     * @return RedirectResponse
+     */
+    public function save(School $school, CreateRequest $request): RedirectResponse
+    {
+
+        $school->classes()->createMany($request->input("classes"));
+
+        return redirect(route("admin.class.index", $school->id))
+            ->with("success", "کلاس های مورد نظر با موفقیت ثبت شد.");
+
     }
 
     /**
-     * Show the form for creating a new resource.
+     * @param SchoolClass $class
+     * @param int $school
+     * @return View
+     * @throws AuthorizationException
      */
-    public function create()
+    public function edit(int $school, SchoolClass $class): View
     {
-        //
+        $this->authorize("update_class", $school->id);
+        $title = "ویرایش کلاس";
+        return view("admin.class.edit", compact("title", "class", 'school'));
     }
 
     /**
-     * Store a newly created resource in storage.
+     * @param editRequest $request
+     * @param int $school
+     * @param SchoolClass $class
+     * @return RedirectResponse
      */
-    public function store(Request $request)
+    public function update(editRequest $request, int $school, SchoolClass $class): RedirectResponse
     {
-        //
+
+        $class->update($request->all());
+
+        return redirect(route("admin.class.index", ["school" => $school]))
+            ->with("success", "کلاس مورد نظر با موفقیت ویرایش شد ");
+
     }
 
     /**
-     * Display the specified resource.
+     * @param DeleteRequest $request
+     * @return RedirectResponse
+     * @throws AuthorizationException
      */
-    public function show(string $id)
+    public function destroy(DeleteRequest $request): RedirectResponse
     {
-        //
-    }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
+        $class = SchoolClass::find($request->input("class_id"));
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
+        $class?->delete();
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        return redirect(route("admin.class.index", ["school" => $request->route()->school]))
+            ->with('success', "کلاس مورد با موفقیت حذف شد");
+
+
     }
 }

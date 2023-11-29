@@ -1,18 +1,18 @@
 <?php
 
-namespace App\Http\Requests\Admin\class;
+namespace App\Http\Requests\Manger\lessen;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Gate;
 
-class DeleteRequest extends FormRequest
+class DestroyLessonRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return Gate::allows("delete_class",$this->school);
+        return Gate::allows("delete-lessen");
     }
 
     /**
@@ -23,7 +23,7 @@ class DeleteRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "class_id" => ["required", "numeric"],
+            "lessen_id" => ["required", "numeric"]
         ];
     }
 }

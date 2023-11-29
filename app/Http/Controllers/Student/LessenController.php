@@ -7,5 +7,13 @@ use Illuminate\Http\Request;
 
 class LessenController extends Controller
 {
-    //
+    public function index()
+    {
+
+    }
+
+    public function show()
+    {
+
+    }
 }

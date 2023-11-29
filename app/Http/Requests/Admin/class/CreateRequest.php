@@ -12,7 +12,7 @@ class CreateRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return Gate::allows("create-class");
+        return Gate::allows("create_class", $this->school->id);
     }
 
     /**
@@ -24,16 +24,16 @@ class CreateRequest extends FormRequest
     {
         return [
             "classes" => ["required", "array"],
-            "classes.*.name"=>["required","string"]
+            "classes.*.name" => ["required", "string"]
         ];
     }
 
     public function messages(): array
     {
         return [
-            "classes.required"=>"کلاسی نوشته نشده",
-            "classes.array"=>"مقدار کلاس ها باید لیستی از دیتا باشند",
-            "classes.*.name.required"=>"نام کلاس وارد نشده",
+            "classes.required" => "کلاسی نوشته نشده",
+            "classes.array" => "مقدار کلاس ها باید لیستی از دیتا باشند",
+            "classes.*.name.required" => "نام کلاس وارد نشده",
         ];
     }
 }

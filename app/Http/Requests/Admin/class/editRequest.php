@@ -13,7 +13,7 @@ class editRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return Gate::allows("update-class");
+        return Gate::allows("update_class", $this->school);
     }
 
     /**
