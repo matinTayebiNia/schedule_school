@@ -9,16 +9,17 @@ class CalendarService
 
     /**
      * @param array $weekdays
+     * @param string|null $school
      * @return array
      */
-    public function generateCalendarData(array $weekdays): array
+    public function generateCalendarData(array $weekdays,string $school=null): array
     {
         $calendarData = [];
 
         $timeRange = TimeService::generateTimeRange(config('panel.calendar.start_time'),
             config('panel.calendar.end_time'));
 
-        $units = $this->getUnits();
+        $units = $this->getUnits($school);
 
         foreach ($timeRange as $time) {
             $timeText = $time['start'] . ' - ' . $time['end'];
@@ -55,7 +56,7 @@ class CalendarService
     public function getUnits(string $school = null): mixed
     {
         return Unit::with('class', 'teacher', "lessen")
-            ->calendarByRoleOrUnitId($school)
+            ->calendarByRoleOrSchoolId($school)
             ->get();
     }
 

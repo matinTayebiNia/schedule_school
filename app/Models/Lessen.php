@@ -123,7 +123,7 @@ class Lessen extends Model
      * @param null $school
      * @return mixed
      */
-    public function scopeCalendarByRoleOrUnitId($query, $school = null): mixed
+    public function scopeCalendarByRoleOrSchoolId($query, $school = null): mixed
     {
         return $query->when(is_null($school), function ($query) {
             if (Auth::guard('teacher')->check())

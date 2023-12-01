@@ -10,3 +10,7 @@ Route::prefix("/school/{school}/class")->name("class.")->group(function () {
     Route::put("/update/{class}", [SchoolClassController::class, "update"])->name("update");
     Route::post("/create", [SchoolClassController::class, "save"])->name("create");
 });
+
+Route::prefix('/lessen/{school}')->name("lessen.")->group(function () {
+
+});

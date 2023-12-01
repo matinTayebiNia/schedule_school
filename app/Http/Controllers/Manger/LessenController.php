@@ -8,6 +8,8 @@ use App\Http\Requests\Manger\Lessen\CreateLessonRequest;
 use App\Http\Requests\Manger\lessen\DestroyLessonRequest;
 use App\Http\Requests\Manger\lessen\UpdateLessonRequest;
 use App\Models\Lessen;
+use App\Models\School;
+use App\services\CalendarService;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
@@ -20,14 +22,17 @@ class LessenController extends Controller
      * Display a listing of the resource.
      * @throws AuthorizationException
      */
-    public function index(): View
+    public function index(School $school, CalendarService $service): View
     {
 
-        $this->authorize("see-lessens");
+        $this->authorize("view_classes",$school->id);
 
+        $weekdays = Lessen::WEEK_DAYS;
+
+        $data = $service->generateCalendarData($weekdays, $school->id);
         //todo : implement index lessen view
 
-        return view("manger.lessen.index");
+        return view("manger.lessen.index", compact("weekdays", "data"));
 
     }
 
@@ -53,11 +58,9 @@ class LessenController extends Controller
 
         Lessen::create($request->validated());
 
-
         return Redirect::route("manger.lessen.index")->with("success", "درس مورد نظر با موفقیت ثبت شد");
 
     }
-
 
 
     /**
