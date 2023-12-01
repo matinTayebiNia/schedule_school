@@ -15,7 +15,7 @@ use Livewire\Component;
 
 class Edit extends Component
 {
-
+//todo add city and state to edit teacher
     public int $teacher_id;
 
     public string $name = "";

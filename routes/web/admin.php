@@ -1,13 +1,15 @@
 <?php
 
 
+use App\Http\Controllers\Admin\MangerController;
 use App\Http\Controllers\Admin\Permission\RoleController;
 use App\Http\Controllers\Admin\Permission\UserController;
 use App\Http\Controllers\Admin\SchoolController;
 use App\Http\Controllers\Admin\StudentController;
 use App\Http\Controllers\Admin\TeacherController;
-use App\Livewire\Admin\Lessen\CreateLessen;
-use App\Livewire\Admin\Lessen\EditLessen;
+
+use App\Livewire\Admin\Manger\CreateManger;
+use App\Livewire\Admin\Manger\EditManger;
 use App\Livewire\Admin\School\CreateSchool;
 use App\Livewire\Admin\School\EditSchool;
 use App\Livewire\Admin\Student\CreateStudent;
@@ -38,6 +40,14 @@ Route::prefix("/student")->name("student.")->group(function () {
 
 Route::resource("roles", RoleController::class)->middleware("password.confirm")->except(["show"]);
 
+Route::prefix("/manger")->name('manger.')->group(function () {
+    Route::get("/", [MangerController::class, "index"])->name("index");
+    Route::get("/show/{manger}", [MangerController::class, "show"])->name("show");
+    Route::get("/create", CreateManger::class)->name("create");
+    Route::get("/edit/{manger}", EditManger::class)->name("edit");
+    Route::delete("/delete", [MangerController::class, "destroy"])->name("destroy");
+});
+
 Route::prefix("/school")->name("school.")->group(function () {
     Route::get("/", [SchoolController::class, "index"])->name("index");
     Route::delete("/delete", [SchoolController::class, "destroy"])->name("destroy");
@@ -45,7 +55,6 @@ Route::prefix("/school")->name("school.")->group(function () {
     Route::get("/edit/{school}", EditSchool::class)->name("edit");
     Route::get("/create", CreateSchool::class)->name("create");
 });
-
 
 
 Route::prefix("/users")->name("users.")->group(function () {

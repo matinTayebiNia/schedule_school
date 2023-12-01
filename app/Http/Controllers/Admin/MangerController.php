@@ -39,28 +39,7 @@ class MangerController extends Controller
         return view("admin.manger.index", compact('mangers', "title"));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     * @throws AuthorizationException
-     */
-    public function create(): View
-    {
-        $this->authorize('create-manger');
 
-        $title = "ثبت مدیر";
-
-        return view("admin.manger.create");
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(CreateMangerRequest $request): RedirectResponse
-    {
-        Manger::create($request->validated());
-
-        return Redirect::route("admin.manger.index")->with("success", "مدیر مورد نظر با موفقیت ثبت شد");
-    }
 
     /**
      * Display the specified resource.
@@ -73,28 +52,6 @@ class MangerController extends Controller
         return view("admin.manger.show", compact("manger"));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     * @throws AuthorizationException
-     */
-    public function edit(Manger $manger): View
-    {
-        $this->authorize('edit-manger');
-
-        $title = "ویرایش مدیر";
-
-        return view("admin.manger.edit", compact("manger"));
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(EditMangerRequest $request, Manger $manger): RedirectResponse
-    {
-        $manger?->update($request->validated());
-
-        return Redirect::route("admin.manger.index")->with("success", "مدیر مورد نظر با موفقیت ویرایش شد");
-    }
 
     /**
      * Remove the specified resource from storage.
