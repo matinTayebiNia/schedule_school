@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Manger;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\class\CreateRequest;
-use App\Http\Requests\Admin\class\DeleteRequest;
-use App\Http\Requests\Admin\class\editRequest;
+use App\Http\Requests\Manger\class\CreateRequest;
+use App\Http\Requests\Manger\class\DeleteRequest;
+use App\Http\Requests\Manger\class\editRequest;
 use App\Models\School;
 use App\Models\SchoolClass;
 use Illuminate\Auth\Access\AuthorizationException;
