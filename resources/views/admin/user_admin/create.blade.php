@@ -40,21 +40,21 @@
                             <x-error-input-dashboard name="personal_code"/>
                         </div>
                         <div class="relative">
-                            <x-label-input-dashboard for="provence_id" label="استان:"></x-label-input-dashboard>
-                            <select wire:model="provence_id" class="rounded-lg  flex-1
+                            <x-label-input-dashboard for="province_id" label="استان:"></x-label-input-dashboard>
+                            <select wire:model="province_id" class="rounded-lg  flex-1
                                                    appearance-none border
                                                    w-full md:w-1/2 py-2 px-4 bg-white
                                                     text-gray-700 placeholder-gray-400
                                                     shadow-sm text-base focus:outline-none
                                                     focus:ring-2 focus:ring-purple-600
-                                                    focus:border-transparent " id="provence_id">
+                                                    focus:border-transparent " id="province_id">
                                 <option value="">انتخاب کنید</option>
                                 @foreach($states as $state)
                                     <option
-                                        {{old("provence_id")==$state->id?"selected":""}} value="{{$state->id}}">{{$state->name}}</option>
+                                        {{old("province_id")==$state->id?"selected":""}} value="{{$state->id}}">{{$state->name}}</option>
                                 @endforeach
                             </select>
-                            <x-error-input-dashboard name="provence_id"></x-error-input-dashboard>
+                            <x-error-input-dashboard name="province_id"></x-error-input-dashboard>
 
                         </div>
                         <div class="relative">
@@ -146,9 +146,9 @@
                 window.open('/file-manager/fm-button', 'fm', 'width=1400,height=800');
             });
         });
-        document.getElementById("state").addEventListener("change", (e) => {
+        document.getElementById("province_id").addEventListener("change", (e) => {
             e.preventDefault();
-        @this.dispatch("set_province", {state: e.target.value})
+        @this.dispatch("set_province", {province: e.target.value})
         })
 
         // set file link
