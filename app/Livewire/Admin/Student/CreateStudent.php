@@ -12,6 +12,7 @@ use Livewire\Component;
 
 class CreateStudent extends Component
 {
+    //todo implement city and state to create and edit student
     public int $school_id = 0;
 
     public string $name = "";

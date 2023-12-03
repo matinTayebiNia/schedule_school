@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin\UserAdmin;
 
+use App\Models\Province;
 use App\Models\User;
 use Illuminate\Auth\Access\AuthorizationException;
 use Livewire\Attributes\On;
@@ -9,9 +10,17 @@ use Livewire\Component;
 
 class CreateAdminUser extends Component
 {
+    //todo implement city and state to create and edit admin user
+
     public string $name = "";
 
     public string $family = "";
+
+    public string $city = "";
+
+    public $cities;
+
+    public string $state = "";
 
     public string $password = "";
 
@@ -45,7 +54,9 @@ class CreateAdminUser extends Component
         return [
             "name" => ["required", "min:3", "max:200"],
             "family" => ["required", "min:3", "max:200"],
-            "password" => ["required", "min:8"],
+            "city" => ["required", "string"],
+            "state" => ["required", "string"],
+            "password" => ["nullable", "min:8"],
             "phone" => ["required", "unique:users", "numeric", "digits:11"],
             "personal_code" => ["required", "unique:users", "numeric", "digits:10"],
             "address" => ["required"],
@@ -68,12 +79,13 @@ class CreateAdminUser extends Component
     {
         return [
             "name.required" => 'نام وارد نشده',
+            "city.required" => 'شهر انتخاب نشده',
+            "state.required" => 'استان انتخاب نشده',
             "name.min" => "نام باید بیشتر از 3 کاراتر باشد",
             "name.max" => 'مقدار نام بیشتر از حد مجاز است',
             "family.required" => 'نام خانوادگی وارد نشده',
             "family.min" => "نام خانوادگی باید بیشتر از 3 کاراتر باشد",
             "family.max" => 'مقدار نام خانوادگی بیشتر از حد مجاز است',
-            "password.required" => 'رمز عبور وارد نشده',
             "password.min" => "رمز عبور باید بیشنر از 8 کاراتر باشد",
             "phone.required" => "تلفن همراه وارد نشده",
             "phone.numeric" => 'تلفن همراه باید عدد باشد',
@@ -99,11 +111,33 @@ class CreateAdminUser extends Component
 
         $data["password"] = generatePasswordForNewUser($data["personal_code"], $data["password"]);
 
-        User::create([...$data, "is_staff" => true]);
+        User::create($data);
 
         session()->flash("success", "کاربر ادمین با موفقیت ثبت شد");
 
         $this->redirect(route("admin.users.index"));
+
+    }
+
+    /**
+     * @param string $city
+     */
+    #[On("set_city")]
+    public function setCity(string $city): void
+    {
+        $this->city = $city;
+    }
+
+    /**
+     * @param string $state
+     */
+    #[On("set_state")]
+    public function setState(string $state): void
+    {
+
+        $this->state = $state;
+
+        $this->cities = Province::whereName($state)->cities()->get();
 
     }
 }

@@ -82,19 +82,19 @@ class PermissionSeed extends Seeder
             ],
             //lessen
             [
-                "name" => "create-lessen"
+                "name" => "create-manger"
             ],
             [
-                "name" => "see-lessens"
+                "name" => "see-mangers"
             ],
             [
-                "name" => "see-lessen"
+                "name" => "see-manger"
             ],
             [
-                "name" => "delete-lessen"
+                "name" => "delete-manger"
             ],
             [
-                "name" => "update-lessen"
+                "name" => "update-manger"
             ],
             //school
             [
@@ -112,35 +112,7 @@ class PermissionSeed extends Seeder
             [
                 "name" => "update-school"
             ],
-            // school class
-            [
-                "name" => "create-class"
-            ],
-            [
-                "name" => "see-classes"
-            ],
-            [
-                "name" => "delete-class"
-            ],
-            [
-                "name" => "update-class"
-            ],
-            //units
-            [
-                "name" => "create-unite"
-            ],
-            [
-                "name" => "see-unites"
-            ],
-            [
-                "name" => "see-unite"
-            ],
-            [
-                "name" => "delete-unite"
-            ],
-            [
-                "name" => "update-unite"
-            ],
+
         ];
 
         DB::table("permissions")->upsert($data, "name");

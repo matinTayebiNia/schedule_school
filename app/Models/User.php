@@ -21,7 +21,6 @@ use Laravel\Sanctum\HasApiTokens;
  * @property string $profile_image;
  * @property string $address;
  * @property string $password;
- * @property boolean $is_staff;
  *
  */
 class User extends Authenticatable
@@ -41,13 +40,10 @@ class User extends Authenticatable
         'address',
         'profile_image',
         'password',
-        "is_staff",
     ];
 
     protected $guarded = [
         "id",
-        "is_staff",
-        "is_superuser"
     ];
 
     /**
@@ -65,11 +61,6 @@ class User extends Authenticatable
         return $this->morphMany(ActiveCode::class, 'userable');
     }
 
-    public function isAdmin(): bool
-    {
-        return $this->isStaff();
-    }
-
     /**
      * The attributes that should be cast.
      *
@@ -78,11 +69,6 @@ class User extends Authenticatable
     protected $casts = [
         'password' => 'hashed',
     ];
-
-    public function isStaff(): bool
-    {
-        return $this->is_staff == 1;
-    }
 
     public function roles(): BelongsToMany
     {

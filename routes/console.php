@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Permission;
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Facades\Artisan;
@@ -17,14 +19,20 @@ use Illuminate\Support\Facades\Hash;
 */
 
 Artisan::command('admin', function () {
-    User::create([
+    $user = User::create([
         'name' => "متین",
         'family' => "طیبی نیا",
         'phone' => "09024466648",
         'personal_code' => '0780963156',
-        'address' => 'foo bar',
-        'password' => Hash::make("matin321Q"),
-        "is_staff" => 1,
-        "is_superuser" => 1
+        "state" => "خراسان رضوی",
+        "city" => "سبزوار",
+        'address' => 'میدان ابومسلم ',
+        'password' => Hash::make("123456789"),
     ]);
+    $role = Role::create([
+        "name" => "super_admin",
+        "label"=>"مدیر کل"
+    ]);
+    $role->permissions()->sync(Permission::all()->pluck("id")->toArray());
+    $user->roles()->sync([$role->id]);
 })->purpose('Display an inspiring quote');
