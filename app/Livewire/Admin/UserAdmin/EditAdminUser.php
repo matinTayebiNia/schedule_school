@@ -2,9 +2,11 @@
 
 namespace App\Livewire\Admin\UserAdmin;
 
+use App\Models\Province;
 use App\Models\User;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
@@ -18,6 +20,14 @@ class EditAdminUser extends Component
     public string $name = "";
 
     public string $family = "";
+
+    public int $city_id = 0;
+
+    public Collection $cities;
+
+    public Collection $states;
+
+    public int $province_id = 0;
 
     public string $password = "";
 
@@ -60,6 +70,10 @@ class EditAdminUser extends Component
     {
         $this->authorize("update-user");
 
+        $this->states = Province::all();
+
+        $this->cities = Province::find($user->province_id)->cities()->get();
+
         $this->user_id = $user->id;
 
         $this->name = $user->name;
@@ -69,6 +83,10 @@ class EditAdminUser extends Component
         $this->phone = $user->phone;
 
         $this->personal_code = $user->personal_code;
+
+        $this->province_id = $user->province_id;
+
+        $this->city_id = $user->city_id;
 
         $this->address = $user->address;
 
@@ -108,12 +126,14 @@ class EditAdminUser extends Component
     {
         return Validator::make(
             [
-                "name" => $this->name, "family" => $this->family, "password" => $this->password,
+                "name" => $this->name, "province_id" => $this->province_id, "city_id" => $this->city_id, "family" => $this->family, "password" => $this->password,
                 "phone" => $this->phone, "personal_code" => $this->personal_code, "address" => $this->address,
                 "profile_image" => $this->profile_image
             ]
             , [
             "name" => ["required", "min:3", "max:200"],
+            "province_id" => ["required", "numeric"],
+            "city_id" => ["required", "numeric"],
             "family" => ["required", "min:3", "max:200"],
             "password" => ["nullable", "min:8"],
             "phone" => ["required", Rule::unique("users")->ignore($user->phone, "phone"), "numeric", "digits:11"],
@@ -124,6 +144,8 @@ class EditAdminUser extends Component
             [
                 "name.required" => 'نام وارد نشده',
                 "name.min" => "نام باید بیشتر از 3 کاراتر باشد",
+                "city_id.required" => 'شهر انتخاب نشده',
+                "province_id.required" => 'استان انتخاب نشده',
                 "name.max" => 'مقدار نام بیشتر از حد مجاز است',
                 "family.required" => 'نام خانوادگی وارد نشده',
                 "family.min" => "نام خانوادگی باید بیشتر از 3 کاراتر باشد",
@@ -142,4 +164,12 @@ class EditAdminUser extends Component
     }
 
 
+    /**
+     * @param int $province
+     */
+    #[On("set_province")]
+    public function setCityOfProvince(int $province): void
+    {
+        $this->cities = Province::find($province)->cities()->get();
+    }
 }

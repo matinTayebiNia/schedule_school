@@ -42,6 +42,42 @@
                                     <x-error-input-dashboard name="personal_code"/>
                                 </div>
                                 <div class="relative">
+                                    <x-label-input-dashboard for="province_id" label="استان:"></x-label-input-dashboard>
+                                    <select wire:model="province_id" class="rounded-lg  flex-1
+                                                   appearance-none border
+                                                   w-full md:w-1/2 py-2 px-4 bg-white
+                                                    text-gray-700 placeholder-gray-400
+                                                    shadow-sm text-base focus:outline-none
+                                                    focus:ring-2 focus:ring-purple-600
+                                                    focus:border-transparent " id="province_id">
+                                        <option value="">انتخاب کنید</option>
+                                        @foreach($states as $state)
+                                            <option
+                                                {{old("province_id")==$state->id?"selected":""}} value="{{$state->id}}">{{$state->name}}</option>
+                                        @endforeach
+                                    </select>
+                                    <x-error-input-dashboard name="province_id"></x-error-input-dashboard>
+
+                                </div>
+                                <div class="relative">
+                                    <x-label-input-dashboard for="city" label="شهر:"></x-label-input-dashboard>
+                                    <select wire:model="city_id" class="rounded-lg  flex-1
+                                                   appearance-none border
+                                                   w-full md:w-1/2 py-2 px-4 bg-white
+                                                    text-gray-700 placeholder-gray-400
+                                                    shadow-sm text-base focus:outline-none
+                                                    focus:ring-2 focus:ring-purple-600
+                                                    focus:border-transparent " id="city">
+                                        <option value="">انتخاب کنید</option>
+                                        @foreach($cities as $city)
+                                            <option
+                                                {{old("city_id")==$city->id?"selected":""}}  value="{{$city->id}}">{{$city->name}}</option>
+                                        @endforeach
+                                    </select>
+                                    <x-error-input-dashboard name="city_id"></x-error-input-dashboard>
+
+                                </div>
+                                <div class="relative">
                                     <x-label-input-dashboard for="address" label="ادرس:"/>
                                     <textarea id="address"
                                               class="    rounded-lg  flex-1
@@ -116,6 +152,11 @@
                 window.open('/file-manager/fm-button', 'fm', 'width=1400,height=800');
             });
         });
+
+        document.getElementById("province_id").addEventListener("change", (e) => {
+            e.preventDefault();
+        @this.dispatch("set_province", {province: e.target.value})
+        })
 
         // set file link
         function fmSetLink(url) {
