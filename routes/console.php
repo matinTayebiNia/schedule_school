@@ -24,8 +24,8 @@ Artisan::command('admin', function () {
         'family' => "طیبی نیا",
         'phone' => "09024466648",
         'personal_code' => '0780963156',
-        "state" => "خراسان رضوی",
-        "city" => "سبزوار",
+        "province_id" => 11,
+        "city_id" => 155,
         'address' => 'میدان ابومسلم ',
         'password' => Hash::make("123456789"),
     ]);

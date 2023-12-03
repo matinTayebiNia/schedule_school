@@ -18,4 +18,30 @@ class Province extends Model
     {
         return $this->hasMany(City::class);
     }
+
+    public function teachers(): HasMany
+    {
+        return $this->hasMany(Teacher::class);
+    }
+
+    public function students(): HasMany
+    {
+        return $this->hasMany(Student::class);
+    }
+
+    public function mangers(): HasMany
+    {
+        return $this->hasMany(Manger::class);
+    }
+
+    public function admins(): HasMany
+    {
+        return $this->hasMany(User::class);
+    }
+
+    public function schools(): HasMany
+    {
+        return $this->hasMany(School::class);
+    }
 }
+

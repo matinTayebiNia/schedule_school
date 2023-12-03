@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -30,8 +31,8 @@ class School extends Model
     protected $fillable = [
         "name",
         "code",
-        "city",
-        "state",
+        "province_id",
+        "city_id",
         "address",
         'created_at',
         'updated_at',
@@ -51,6 +52,17 @@ class School extends Model
     public function manger(): HasOne
     {
         return $this->hasOne(Manger::class);
+    }
+
+    public function province(): BelongsTo
+    {
+        return $this->belongsTo(Province::class);
+    }
+
+    public function cities(): BelongsTo
+    {
+        return $this->belongsTo(City::class);
+
     }
 
 }

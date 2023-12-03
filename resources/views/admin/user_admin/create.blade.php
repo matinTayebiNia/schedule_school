@@ -20,6 +20,7 @@
                                                placeholder="نام خانوادگی را وارد کنید"/>
                             <x-error-input-dashboard name="family"/>
                         </div>
+
                         <div class="relative">
                             <x-label-input-dashboard for="password" label="رمزعبور:"/>
                             <x-input-dashboard type="password" livewireModel="password" name="password"
@@ -39,6 +40,42 @@
                             <x-error-input-dashboard name="personal_code"/>
                         </div>
                         <div class="relative">
+                            <x-label-input-dashboard for="provence_id" label="استان:"></x-label-input-dashboard>
+                            <select wire:model="provence_id" class="rounded-lg  flex-1
+                                                   appearance-none border
+                                                   w-full md:w-1/2 py-2 px-4 bg-white
+                                                    text-gray-700 placeholder-gray-400
+                                                    shadow-sm text-base focus:outline-none
+                                                    focus:ring-2 focus:ring-purple-600
+                                                    focus:border-transparent " id="provence_id">
+                                <option value="">انتخاب کنید</option>
+                                @foreach($states as $state)
+                                    <option
+                                        {{old("provence_id")==$state->id?"selected":""}} value="{{$state->id}}">{{$state->name}}</option>
+                                @endforeach
+                            </select>
+                            <x-error-input-dashboard name="provence_id"></x-error-input-dashboard>
+
+                        </div>
+                        <div class="relative">
+                            <x-label-input-dashboard for="city" label="شهر:"></x-label-input-dashboard>
+                            <select wire:model="city_id" class="rounded-lg  flex-1
+                                                   appearance-none border
+                                                   w-full md:w-1/2 py-2 px-4 bg-white
+                                                    text-gray-700 placeholder-gray-400
+                                                    shadow-sm text-base focus:outline-none
+                                                    focus:ring-2 focus:ring-purple-600
+                                                    focus:border-transparent " id="city">
+                                <option value="">انتخاب کنید</option>
+                                @foreach($cities as $city)
+                                    <option
+                                        {{old("city_id")==$city->id?"selected":""}}  value="{{$city->id}}">{{$city->name}}</option>
+                                @endforeach
+                            </select>
+                            <x-error-input-dashboard name="city_id"></x-error-input-dashboard>
+
+                        </div>
+                        <div class="relative">
                             <x-label-input-dashboard for="address" label="ادرس:"/>
                             <textarea id="address"
                                       class="    rounded-lg  flex-1
@@ -53,6 +90,7 @@
                                       wire:model="address" placeholder="ادرس">{{old("address")}}</textarea>
                             <x-error-input-dashboard name="address"/>
                         </div>
+
                         <div class="relative">
                                    <span class="input-group-btn">
                                      <a id="lfm" data-input="thumbnail" data-preview="holder" class="flex-shrink-0 px-4 py-2 text-base
@@ -108,6 +146,10 @@
                 window.open('/file-manager/fm-button', 'fm', 'width=1400,height=800');
             });
         });
+        document.getElementById("state").addEventListener("change", (e) => {
+            e.preventDefault();
+        @this.dispatch("set_province", {state: e.target.value})
+        })
 
         // set file link
         function fmSetLink(url) {

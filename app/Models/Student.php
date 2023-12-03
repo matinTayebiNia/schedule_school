@@ -32,8 +32,8 @@ class Student extends Authenticatable
         "password",
         "personal_code",
         "address",
-        "state",
-        "city",
+        "province_id",
+        "city_id",
         "profile_image",
         "school_id"
     ];
@@ -49,6 +49,18 @@ class Student extends Authenticatable
     public function school(): BelongsTo
     {
         return $this->belongsTo(School::class);
+    }
+
+
+    public function province(): BelongsTo
+    {
+        return $this->belongsTo(Province::class);
+    }
+
+    public function cities(): BelongsTo
+    {
+        return $this->belongsTo(City::class);
+
     }
 
 }

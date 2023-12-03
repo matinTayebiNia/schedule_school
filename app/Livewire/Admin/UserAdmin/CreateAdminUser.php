@@ -5,6 +5,7 @@ namespace App\Livewire\Admin\UserAdmin;
 use App\Models\Province;
 use App\Models\User;
 use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Support\Collection;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
@@ -16,11 +17,13 @@ class CreateAdminUser extends Component
 
     public string $family = "";
 
-    public string $city = "";
+    public int $city_id = 0;
 
-    public $cities;
+    public Collection $cities;
 
-    public string $state = "";
+    public Collection $states;
+
+    public int $province_id = 0;
 
     public string $password = "";
 
@@ -54,8 +57,8 @@ class CreateAdminUser extends Component
         return [
             "name" => ["required", "min:3", "max:200"],
             "family" => ["required", "min:3", "max:200"],
-            "city" => ["required", "string"],
-            "state" => ["required", "string"],
+            "city_id" => ["required", "numeric"],
+            "province_id" => ["required", "numeric"],
             "password" => ["nullable", "min:8"],
             "phone" => ["required", "unique:users", "numeric", "digits:11"],
             "personal_code" => ["required", "unique:users", "numeric", "digits:10"],
@@ -70,6 +73,10 @@ class CreateAdminUser extends Component
     public function mount()
     {
         $this->authorize("create-user");
+
+        $this->states = Province::all();
+
+        $this->cities = collect([]);
     }
 
     /**
@@ -79,8 +86,8 @@ class CreateAdminUser extends Component
     {
         return [
             "name.required" => 'نام وارد نشده',
-            "city.required" => 'شهر انتخاب نشده',
-            "state.required" => 'استان انتخاب نشده',
+            "city_id.required" => 'شهر انتخاب نشده',
+            "province_id.required" => 'استان انتخاب نشده',
             "name.min" => "نام باید بیشتر از 3 کاراتر باشد",
             "name.max" => 'مقدار نام بیشتر از حد مجاز است',
             "family.required" => 'نام خانوادگی وارد نشده',
@@ -120,24 +127,11 @@ class CreateAdminUser extends Component
     }
 
     /**
-     * @param string $city
+     * @param int $province
      */
-    #[On("set_city")]
-    public function setCity(string $city): void
+    #[On("set_province")]
+    public function setCityOfProvince(int $province): void
     {
-        $this->city = $city;
-    }
-
-    /**
-     * @param string $state
-     */
-    #[On("set_state")]
-    public function setState(string $state): void
-    {
-
-        $this->state = $state;
-
-        $this->cities = Province::whereName($state)->cities()->get();
-
+        $this->cities = Province::find($province)->cities()->get();
     }
 }

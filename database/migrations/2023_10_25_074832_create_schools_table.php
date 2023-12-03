@@ -13,8 +13,8 @@ return new class extends Migration {
         Schema::create('schools', function (Blueprint $table) {
             $table->id();
             $table->string("name");
-            $table->string("city");
-            $table->string("state");
+            $table->unsignedBigInteger("province_id");
+            $table->unsignedBigInteger("city_id");
             $table->timestamps();
             $table->softDeletes();
         });

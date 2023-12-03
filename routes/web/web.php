@@ -99,9 +99,9 @@ Route::middleware('auth')->group(function () {
 
 
 Route::get('/admin/dashboard', [AdminController::class, "index"])
-    ->middleware(['auth', "isAdmin"])->name('admin.dashboard');
+    ->middleware(['auth',])->name('admin.dashboard');
 
-Route::middleware(["isAdmin", 'auth'])->name("admin.")->prefix("/admin")->group(function () {
+Route::middleware([ 'auth'])->name("admin.")->prefix("/admin")->group(function () {
     Route::get('/profile', [AdminController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [AdminController::class, 'update'])->name('profile.update');
 

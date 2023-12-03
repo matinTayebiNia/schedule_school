@@ -34,8 +34,8 @@ class Manger extends Authenticatable
         "password",
         "phone",
         "personal_code",
-        "state",
-        "city",
+        "province_id",
+        "city_id",
         "address",
         "profile_image",
         "school_id"
@@ -48,4 +48,15 @@ class Manger extends Authenticatable
         return $this->belongsTo(School::class);
     }
 
+
+    public function province(): BelongsTo
+    {
+        return $this->belongsTo(Province::class);
+    }
+
+    public function cities(): BelongsTo
+    {
+        return $this->belongsTo(City::class);
+
+    }
 }

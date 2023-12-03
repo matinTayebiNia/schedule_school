@@ -4,9 +4,11 @@ namespace App\Providers;
 
 // use Illuminate\Support\Facades\Gate;
 use App\Models\Permission;
+use App\Models\School;
 use App\Models\Teacher;
 use App\Models\Unit;
 use App\Models\User;
+use App\Policies\SchoolClassPolicy;
 use App\Policies\UnitPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
@@ -22,7 +24,9 @@ class AuthServiceProvider extends ServiceProvider
      * @var array<class-string, class-string>
      */
     protected $policies = [
-        Unit::class => UnitPolicy::class,
+//        Unit::class => UnitPolicy::class,
+        School::class => SchoolClassPolicy::class
+
     ];
 
     /**
@@ -30,13 +34,13 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-      /*  Permission::all()->map(
+        Permission::all()->map(
             fn(Permission $item) => Gate::define($item->name,
                 fn(Authenticatable $user) => $user instanceof User ?
                     $user->hesAllowed($item) :
                     false));
 
 
-        $this->registerPolicies();*/
+        $this->registerPolicies();
     }
 }

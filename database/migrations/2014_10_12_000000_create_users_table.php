@@ -17,6 +17,8 @@ return new class extends Migration {
             $table->string('phone', "11")->unique();
             $table->string("personal_code", "10")->unique();
             $table->string('password');
+            $table->unsignedBigInteger("province_id");
+            $table->unsignedBigInteger("city_id");
             $table->string("address");
             $table->string("profile_image")->nullable();
             $table->rememberToken();

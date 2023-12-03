@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -31,8 +32,8 @@ class Teacher extends Authenticatable
         "family",
         "password",
         "phone",
-        "state",
-        "city",
+        "province_id",
+        "city_id",
         "personal_code",
         "address",
         "profile_image"
@@ -49,6 +50,16 @@ class Teacher extends Authenticatable
         return $this->morphMany(ActiveCode::class, 'userable');
     }
 
+    public function province(): BelongsTo
+    {
+     return $this->belongsTo(Province::class);
+    }
+
+    public function cities(): BelongsTo
+    {
+        return $this->belongsTo(City::class);
+
+    }
 
 
 }
